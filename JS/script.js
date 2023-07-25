@@ -44,40 +44,13 @@ let stock = {
         return stockProduct;
       }
     }
-    return product.toLowerCase(); // If not found in stock, use the input as the product name
-  }
-  
-  function updateSellProductOptions() {
-    const sellProductSelect = document.getElementById("sell-product");
-    sellProductSelect.innerHTML = "";
-  
-    for (const product in stock) {
-      const productOption = document.createElement("option");
-      productOption.value = product;
-      productOption.textContent = capitalizeFirstLetter(product);
-      sellProductSelect.appendChild(productOption);
-    }
-  }
-  
-  function editProduct(product) {
-    const productNameElement = document.querySelector(`[data-product="${product}"]`);
-    const newProductName = productNameElement.innerText.trim().toLowerCase();
-  
-    if (stock[product] !== undefined && newProductName !== product && newProductName !== "") {
-      stock[newProductName] = stock[product];
-      delete stock[product];
-      updateStockList();
-      updateSellProductOptions(); // Update options in the sell-product dropdown
-    } else {
-      // Restore the original name
-      productNameElement.innerText = capitalizeFirstLetter(product);
-    }
+    return product.toLowerCase();
   }
   
   function deleteProduct(product) {
     if (confirm(`Are you sure you want to delete "${capitalizeFirstLetter(product)}"?`)) {
       delete stock[product];
-      updateStockList();
+      updateStock();
       updateSellProductOptions(); // Update options in the sell-product dropdown
     }
   }
@@ -125,8 +98,7 @@ let stock = {
     listItem.innerHTML = `
       <span contenteditable="true" class="product-name" data-product="${product}">${capitalizeFirstLetter(product)}</span>: 
       <span class="product-quantity" id="stock-${product}">${quantity}</span>
-      <button onclick="editProduct('${product}')">Edit</button>
-      <button onclick="deleteProduct('${product}')">Delete</button>
+      <button onclick="deleteProduct('${product}')">Remove</button>
     `;
     stockList.appendChild(listItem);
   }
@@ -152,8 +124,7 @@ let stock = {
       listItem.innerHTML = `
         <span contenteditable="true" class="product-name" data-product="${product}">${capitalizeFirstLetter(product)}</span>: 
         <span class="product-quantity" id="stock-${product}">${stock[product]}</span>
-        <button onclick="editProduct('${product}')">Edit</button>
-        <button onclick="deleteProduct('${product}')">Delete</button>
+        <button onclick="deleteProduct('${product}')">Remove</button>
       `;
       stockList.appendChild(listItem);
     }
