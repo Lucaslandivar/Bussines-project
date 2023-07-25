@@ -14,29 +14,33 @@ let stock = {
     const quantity = parseInt(document.getElementById("sell-quantity").value);
     const price = parseFloat(document.getElementById("sell-price").value);
   
-    if (stock[product] >= quantity && quantity > 0 && price > 0) {
-      stock[product] -= quantity;
-      totalMoney += price * quantity;
+    if (quantity > 0 && price > 0) {
+      if (stock[product] >= quantity) {
+        stock[product] -= quantity;
+        totalMoney += price * quantity;
   
-      if (soldProducts[product]) {
-        soldProducts[product].quantity += quantity;
-        soldProducts[product].totalRevenue += price * quantity;
+        if (soldProducts[product]) {
+          soldProducts[product].quantity += quantity;
+          soldProducts[product].totalRevenue += price * quantity;
+        } else {
+          soldProducts[product] = { quantity, totalRevenue: price * quantity };
+        }
+  
+        updateStock();
+        updateSoldProducts();
+        updateTotalMoney();
       } else {
-        soldProducts[product] = { quantity, totalRevenue: price * quantity };
+        alert("Not enough quantity in stock!");
       }
-  
-      updateStock();
-      updateSoldProducts();
-      updateTotalMoney();
     } else {
-      alert("Invalid quantity, product not available, or invalid price!");
+      alert("Invalid quantity or price!");
     }
   }
   
   function refillProduct() {
-    const product = document.getElementById("refill-product").value;
-    const quantity = parseInt(document.getElementById("refill-quantity").value);
-    const price = parseFloat(document.getElementById("refill-price").value);
+    const product = document.getElementById("refill-product").value.toLowerCase(); // Convert to lowercase
+  const quantity = parseInt(document.getElementById("refill-quantity").value);
+  const price = parseFloat(document.getElementById("refill-price").value);
   
     if (quantity > 0 && price > 0) {
       if (stock[product]) {
@@ -44,6 +48,7 @@ let stock = {
         stock[product] += quantity;
       } else {
         // If the product doesn't exist in stock, add it
+        stock[product] = quantity;
         addProductToStock(product, quantity);
         addProductToSellContainer(product);
       }
@@ -110,17 +115,14 @@ let stock = {
   }
   
   function updateRefillProducts() {
-    const refillProductContainer = document.getElementById("refill-product-container");
-    refillProductContainer.innerHTML = "<h2>Refilled Products</h2>";
+    const refillProductMessage = document.getElementById("refill-product-message");
+    refillProductMessage.innerHTML = "<h2>Refilled Products</h2>";
     for (const product in refillProducts) {
       const { quantity, totalCost, pricePerItem } = refillProducts[product];
-      refillProductContainer.innerHTML += `<p>${product}: ${quantity} refilled for $${totalCost.toFixed(2)} ($${pricePerItem.toFixed(2)} each)</p>`;
+      const productElement = document.createElement("p");
+      productElement.textContent = `${product}: ${quantity} refilled for $${totalCost.toFixed(2)} ($${pricePerItem.toFixed(2)} each)`;
+      refillProductMessage.appendChild(productElement); // Append to the message div
     }
-  
-    // Set a timeout to remove the product details after 2 seconds
-    setTimeout(() => {
-      refillProductContainer.innerHTML = "<h2>Refilled Products</h2>";
-    }, 2000); // 2000 milliseconds = 2 seconds
   }
   
   function updateTotalMoney() {
