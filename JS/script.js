@@ -39,8 +39,8 @@ let stock = {
   
   function refillProduct() {
     const product = document.getElementById("refill-product").value.toLowerCase(); // Convert to lowercase
-  const quantity = parseInt(document.getElementById("refill-quantity").value);
-  const price = parseFloat(document.getElementById("refill-price").value);
+    const quantity = parseInt(document.getElementById("refill-quantity").value);
+    const price = parseFloat(document.getElementById("refill-price").value);
   
     if (quantity > 0 && price > 0) {
       if (stock[product]) {
