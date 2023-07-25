@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bussines</title>
+  <link rel="stylesheet" href="CSS/styles.css">
+</head>
+<body>
+  <div class="container">
+    <div class="section" id="stock-container">
+      <h2>Stock</h2>
+      <p>Cookie: <span id="stock-cookie">5</span></p>
+      <p>Candy: <span id="stock-candy">10</span></p>
+      <p>Chocolate: <span id="stock-chocolate">4</span></p>
+    </div>
+    
+    <div class="section" id="sell-container">
+      <h2>Sell Products</h2>
+      <label for="sell-product">Select Product:</label>
+      <select id="sell-product">
+        <option value="cookie">Cookie</option>
+        <option value="candy">Candy</option>
+        <option value="chocolate">Chocolate</option>
+      </select>
+      <label for="sell-quantity">Quantity:</label>
+      <input type="number" id="sell-quantity" min="1" value="1">
+      <label for="sell-price">Selling Price:</label>
+      <input type="number" id="sell-price">
+      <button onclick="sellProduct()">Sell</button>
+    </div>
+    
+    <div class="section" id="sold-product-container">
+      <h2>Sold Products</h2>
+      <!-- This section will be dynamically updated with sold products -->
+    </div>
+    
+    <div  class="section" id="refill-product-container">
+      <h2>Refill Products</h2>
+      <label for="refill-product">Product:</label>
+      <select id="refill-product">
+        <option value="cookie">Cookie</option>
+        <option value="candy">Candy</option>
+        <option value="chocolate">Chocolate</option>
+      </select>
+      <br>
+      <label for="refill-quantity">Quantity:</label>
+      <input type="number" id="refill-quantity" min="1" value="1">
+      <br>
+      <label for="refill-price">Price per Item:</label>
+      <input type="number" id="refill-price" min="0.01" step="0.01" value="">
+      <br>
+      <button onclick="refillProduct()">Refill Product</button>
+    </div>
+    
+    <div class="section" id="money-container">
+      <h2>Money</h2>
+      <p>Total Money: $<span id="total-money">20</span></p>
+    </div>
+  </div>
+  <script src="JS/script.js"></script>
+</body>
+</html>
