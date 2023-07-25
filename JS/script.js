@@ -15,15 +15,16 @@ let stock = {
     const price = parseFloat(document.getElementById("sell-price").value);
   
     if (quantity > 0 && price > 0) {
-      if (stock[product] >= quantity) {
-        stock[product] -= quantity;
+      const productName = getProductFromStock(product);
+      if (stock[productName] >= quantity) {
+        stock[productName] -= quantity;
         totalMoney += price * quantity;
   
-        if (soldProducts[product]) {
-          soldProducts[product].quantity += quantity;
-          soldProducts[product].totalRevenue += price * quantity;
+        if (soldProducts[productName]) {
+          soldProducts[productName].quantity += quantity;
+          soldProducts[productName].totalRevenue += price * quantity;
         } else {
-          soldProducts[product] = { quantity, totalRevenue: price * quantity };
+          soldProducts[productName] = { quantity, totalRevenue: price * quantity };
         }
   
         updateStock();
@@ -37,17 +38,59 @@ let stock = {
     }
   }
   
+  function getProductFromStock(product) {
+    for (const stockProduct in stock) {
+      if (stockProduct.toLowerCase() === product.toLowerCase()) {
+        return stockProduct;
+      }
+    }
+    return product.toLowerCase(); // If not found in stock, use the input as the product name
+  }
+  
+  function updateSellProductOptions() {
+    const sellProductSelect = document.getElementById("sell-product");
+    sellProductSelect.innerHTML = "";
+  
+    for (const product in stock) {
+      const productOption = document.createElement("option");
+      productOption.value = product;
+      productOption.textContent = capitalizeFirstLetter(product);
+      sellProductSelect.appendChild(productOption);
+    }
+  }
+  
+  function editProduct(product) {
+    const productNameElement = document.querySelector(`[data-product="${product}"]`);
+    const newProductName = productNameElement.innerText.trim().toLowerCase();
+  
+    if (stock[product] !== undefined && newProductName !== product && newProductName !== "") {
+      stock[newProductName] = stock[product];
+      delete stock[product];
+      updateStockList();
+      updateSellProductOptions(); // Update options in the sell-product dropdown
+    } else {
+      // Restore the original name
+      productNameElement.innerText = capitalizeFirstLetter(product);
+    }
+  }
+  
+  function deleteProduct(product) {
+    if (confirm(`Are you sure you want to delete "${capitalizeFirstLetter(product)}"?`)) {
+      delete stock[product];
+      updateStockList();
+      updateSellProductOptions(); // Update options in the sell-product dropdown
+    }
+  }
+  
   function refillProduct() {
-    const product = document.getElementById("refill-product").value.toLowerCase(); // Convert to lowercase
+    const product = document.getElementById("refill-product").value.toLowerCase();
     const quantity = parseInt(document.getElementById("refill-quantity").value);
     const price = parseFloat(document.getElementById("refill-price").value);
   
     if (quantity > 0 && price > 0) {
       if (stock[product]) {
-        // If the product exists in stock, just refill it
         stock[product] += quantity;
       } else {
-        // If the product doesn't exist in stock, add it
         stock[product] = quantity;
         addProductToStock(product, quantity);
         addProductToSellContainer(product);
@@ -68,7 +111,6 @@ let stock = {
       updateRefillProducts();
       updateTotalMoney();
   
-      // Clear the input fields after successfully refilling a product
       document.getElementById("refill-product").value = "";
       document.getElementById("refill-quantity").value = "1";
       document.getElementById("refill-price").value = "";
@@ -76,13 +118,17 @@ let stock = {
       alert("Invalid quantity or price!");
     }
   }
-
+  
   function addProductToStock(product, quantity) {
-    stock[product] = quantity;
-    const stockContainer = document.getElementById("stock-container");
-    const productElement = document.createElement("p");
-    productElement.innerHTML = `${capitalizeFirstLetter(product)}: <span id="stock-${product}">${quantity}</span>`;
-    stockContainer.appendChild(productElement);
+    const stockList = document.getElementById("stock-list");
+    const listItem = document.createElement("li");
+    listItem.innerHTML = `
+      <span contenteditable="true" class="product-name" data-product="${product}">${capitalizeFirstLetter(product)}</span>: 
+      <span class="product-quantity" id="stock-${product}">${quantity}</span>
+      <button onclick="editProduct('${product}')">Edit</button>
+      <button onclick="deleteProduct('${product}')">Delete</button>
+    `;
+    stockList.appendChild(listItem);
   }
   
   function addProductToSellContainer(product) {
@@ -93,15 +139,24 @@ let stock = {
     sellProductSelect.appendChild(productOption);
   }
   
-  
   function capitalizeFirstLetter(string) {
     return string.charAt(0).toUpperCase() + string.slice(1);
   }
-
+  
   function updateStock() {
-    document.getElementById("stock-cookie").textContent = stock.cookie;
-    document.getElementById("stock-candy").textContent = stock.candy;
-    document.getElementById("stock-chocolate").textContent = stock.chocolate;
+    const stockList = document.getElementById("stock-list");
+    stockList.innerHTML = "";
+  
+    for (const product in stock) {
+      const listItem = document.createElement("li");
+      listItem.innerHTML = `
+        <span contenteditable="true" class="product-name" data-product="${product}">${capitalizeFirstLetter(product)}</span>: 
+        <span class="product-quantity" id="stock-${product}">${stock[product]}</span>
+        <button onclick="editProduct('${product}')">Edit</button>
+        <button onclick="deleteProduct('${product}')">Delete</button>
+      `;
+      stockList.appendChild(listItem);
+    }
   }
   
   function updateSoldProducts() {
@@ -121,11 +176,17 @@ let stock = {
       const { quantity, totalCost, pricePerItem } = refillProducts[product];
       const productElement = document.createElement("p");
       productElement.textContent = `${product}: ${quantity} refilled for $${totalCost.toFixed(2)} ($${pricePerItem.toFixed(2)} each)`;
-      refillProductMessage.appendChild(productElement); // Append to the message div
+      refillProductMessage.appendChild(productElement); 
     }
   }
   
   function updateTotalMoney() {
     document.getElementById("total-money").textContent = totalMoney.toFixed(2);
   }
-   
+  
+  // Initialize the page with the current stock and sold products
+  updateStock();
+  updateSellProductOptions();
+  updateSoldProducts();
+  updateTotalMoney();
+  
