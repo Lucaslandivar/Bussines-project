@@ -39,7 +39,15 @@ let stock = {
     const price = parseFloat(document.getElementById("refill-price").value);
   
     if (quantity > 0 && price > 0) {
-      stock[product] += quantity;
+      if (stock[product]) {
+        // If the product exists in stock, just refill it
+        stock[product] += quantity;
+      } else {
+        // If the product doesn't exist in stock, add it
+        addProductToStock(product, quantity);
+        addProductToSellContainer(product);
+      }
+  
       const totalCost = price * quantity;
       totalMoney -= totalCost;
   
@@ -63,7 +71,28 @@ let stock = {
       alert("Invalid quantity or price!");
     }
   }
+
+  function addProductToStock(product, quantity) {
+    stock[product] = quantity;
+    const stockContainer = document.getElementById("stock-container");
+    const productElement = document.createElement("p");
+    productElement.innerHTML = `${capitalizeFirstLetter(product)}: <span id="stock-${product}">${quantity}</span>`;
+    stockContainer.appendChild(productElement);
+  }
   
+  function addProductToSellContainer(product) {
+    const sellProductSelect = document.getElementById("sell-product");
+    const productOption = document.createElement("option");
+    productOption.value = product;
+    productOption.textContent = capitalizeFirstLetter(product);
+    sellProductSelect.appendChild(productOption);
+  }
+  
+  
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   function updateStock() {
     document.getElementById("stock-cookie").textContent = stock.cookie;
     document.getElementById("stock-candy").textContent = stock.candy;
