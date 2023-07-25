@@ -40,14 +40,15 @@ let stock = {
   
     if (quantity > 0 && price > 0) {
       stock[product] += quantity;
-      totalMoney -= price * quantity;
+      const totalCost = price * quantity;
+      totalMoney -= totalCost;
   
       if (refillProducts[product]) {
         refillProducts[product].quantity += quantity;
-        refillProducts[product].totalCost += price * quantity;
+        refillProducts[product].totalCost += totalCost;
         refillProducts[product].pricePerItem = refillProducts[product].totalCost / refillProducts[product].quantity;
       } else {
-        refillProducts[product] = { quantity, totalCost: price * quantity, pricePerItem: price };
+        refillProducts[product] = { quantity, totalCost, pricePerItem: price };
       }
   
       updateStock();
@@ -55,6 +56,7 @@ let stock = {
       updateTotalMoney();
   
       // Clear the input fields after successfully refilling a product
+      document.getElementById("refill-product").value = "";
       document.getElementById("refill-quantity").value = "1";
       document.getElementById("refill-price").value = "";
     } else {
@@ -95,4 +97,4 @@ let stock = {
   function updateTotalMoney() {
     document.getElementById("total-money").textContent = totalMoney.toFixed(2);
   }
-  
+   
