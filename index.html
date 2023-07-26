@@ -68,6 +68,15 @@
   <div class="section" id="money-container">
     <h2>Money</h2>
     <p>Total Money: $<span id="total-money">20</span></p>
+    <div class="money-inputs">  
+      <label for="money-amount">Amount:</label>
+      <input type="number" id="money-amount" step="0.01" placeholder="Enter the amount">
+      <label for="money-source">Source:</label>
+      <input type="text" id="money-source" placeholder="Enter the source">
+      <button onclick="addMoney()">Add Money</button>
+    </div>
+  <div id="money-transaction-list">
+  <!-- This section will be dynamically updated with money transactions -->
   </div>
 
   <script src="JS/script.js"></script>

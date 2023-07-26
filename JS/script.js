@@ -180,6 +180,32 @@ let stock = {
   function updateTotalMoney() {
     document.getElementById("total-money").textContent = totalMoney.toFixed(2);
   }
+
+  function addMoney() {
+    const amount = parseFloat(document.getElementById("money-amount").value);
+    const source = document.getElementById("money-source").value;
+  
+    if (amount > 0 && source.trim() !== "") {
+      totalMoney += amount;
+      updateTotalMoney();
+      addMoneyTransaction(amount, source);
+      clearMoneyInputs();
+    } else {
+      alert("Invalid amount or source!");
+    }
+  }
+  
+  function addMoneyTransaction(amount, source) {
+    const moneyTransactionList = document.getElementById("money-transaction-list");
+    const transactionElement = document.createElement("div");
+    transactionElement.textContent = `Received $${amount.toFixed(2)} from: ${source}`;
+    moneyTransactionList.appendChild(transactionElement);
+  }
+  
+  function clearMoneyInputs() {
+    document.getElementById("money-amount").value = "";
+    document.getElementById("money-source").value = "";
+  }
   
   // Initialize the page with the current stock and sold products
   updateStock();
