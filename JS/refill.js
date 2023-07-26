@@ -20,24 +20,24 @@ function refillProduct() {
     totalMoney -= totalCost;
 
     if (refillProducts[product]) {
-      refillProducts[product].quantity += quantity;
-      refillProducts[product].totalCost += totalCost;
-      refillProducts[product].pricePerItem = refillProducts[product].totalCost / refillProducts[product].quantity;
+        refillProducts[product].quantity += quantity;
+        refillProducts[product].totalCost += totalCost;
+        refillProducts[product].pricePerItem = refillProducts[product].totalCost / refillProducts[product].quantity;
+      } else {
+        refillProducts[product] = { quantity, totalCost, pricePerItem: price };
+      }
+  
+      updateStock();
+      updateRefillProducts(); // Update refill products with red color
+      updateTotalMoney();
+  
+      document.getElementById("refill-product").value = "";
+      document.getElementById("refill-quantity").value = "1";
+      document.getElementById("refill-price").value = "";
     } else {
-      refillProducts[product] = { quantity, totalCost, pricePerItem: price };
+      alert("Invalid quantity or price!");
     }
-
-    updateStock();
-    updateRefillProducts();
-    updateTotalMoney();
-
-    document.getElementById("refill-product").value = "";
-    document.getElementById("refill-quantity").value = "1";
-    document.getElementById("refill-price").value = "";
-  } else {
-    alert("Invalid quantity or price!");
   }
-}
 
 function addProductToStock(product, quantity) {
   const stockList = document.getElementById("stock-list");
@@ -58,13 +58,15 @@ function addProductToSellContainer(product) {
   sellProductSelect.appendChild(productOption);
 }
 
+// Update the refill-products display with red color for refills
 function updateRefillProducts() {
-  const refillProductMessage = document.getElementById("refill-product-message");
-  refillProductMessage.innerHTML = "<h2>Refilled Products</h2>";
-  for (const product in refillProducts) {
-    const { quantity, totalCost, pricePerItem } = refillProducts[product];
-    const productElement = document.createElement("p");
-    productElement.textContent = `${product}: ${quantity} refilled for $${totalCost.toFixed(2)} ($${pricePerItem.toFixed(2)} each)`;
-    refillProductMessage.appendChild(productElement); 
+    const refillProductMessage = document.getElementById("refill-product-message");
+    refillProductMessage.innerHTML = "<h2>Refilled Products</h2>";
+    for (const product in refillProducts) {
+      const { quantity, totalCost, pricePerItem } = refillProducts[product];
+      const productElement = document.createElement("p");
+      productElement.textContent = `${product}: ${quantity} refilled for $${totalCost.toFixed(2)} ($${pricePerItem.toFixed(2)} each)`;
+      productElement.style.color = "red"; // Set color to red for refilled products
+      refillProductMessage.appendChild(productElement);
+    }
   }
-}

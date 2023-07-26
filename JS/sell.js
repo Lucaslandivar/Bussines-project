@@ -1,5 +1,4 @@
 // sell-container
-
 function sellProduct() {
     const product = document.getElementById("sell-product").value;
     const quantity = parseInt(document.getElementById("sell-quantity").value);
@@ -7,22 +6,26 @@ function sellProduct() {
   
     if (quantity > 0 && price > 0) {
       const productName = getProductFromStock(product);
-      if (stock[productName] >= quantity) {
+      const availableQuantity = stock[productName];
+  
+      if (availableQuantity >= quantity) {
+        const totalSaleAmount = price * quantity;
+  
         stock[productName] -= quantity;
-        totalMoney += price * quantity;
+        totalMoney += totalSaleAmount;
   
         if (soldProducts[productName]) {
           soldProducts[productName].quantity += quantity;
-          soldProducts[productName].totalRevenue += price * quantity;
+          soldProducts[productName].totalRevenue += totalSaleAmount;
         } else {
-          soldProducts[productName] = { quantity, totalRevenue: price * quantity };
+          soldProducts[productName] = { quantity, totalRevenue: totalSaleAmount };
         }
   
         updateStock();
         updateSoldProducts();
         updateTotalMoney();
       } else {
-        alert("Not enough quantity in stock!");
+        alert(`Not enough quantity in stock! Available quantity: ${availableQuantity}`);
       }
     } else {
       alert("Invalid quantity or price!");
