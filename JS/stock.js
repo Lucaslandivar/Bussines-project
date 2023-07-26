@@ -1,10 +1,24 @@
 // stock-container
+
 let stock = {
     cookie: 5,
     candy: 10,
     chocolate: 4,
   };
   
+  // Define the updateSellProductOptions function
+  function updateSellProductOptions() {
+    const sellProductSelect = document.getElementById("sell-product");
+    sellProductSelect.innerHTML = "";
+  
+    for (const product in stock) {
+      const productOption = document.createElement("option");
+      productOption.value = product;
+      productOption.textContent = capitalizeFirstLetter(product);
+      sellProductSelect.appendChild(productOption);
+    }
+  }
+
   // Get the correct product name from the stock
   function getProductFromStock(product) {
     for (const stockProduct in stock) {

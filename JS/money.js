@@ -2,20 +2,19 @@
 
 let totalMoney = 20;
 
+// Update the total money display
 function updateTotalMoney() {
-  document.getElementById("total-money").textContent = totalMoney.toFixed(2);
-}
+    const totalMoneyElement = document.getElementById("total-money");
+    totalMoneyElement.textContent = totalMoney.toFixed(2);
+    totalMoneyElement.style.color = totalMoney >= 0 ? "green" : "red"; // Set color based on positive/negative value
+  }
 
+// Add money to the total money amount
 function addMoney() {
     const amount = parseFloat(document.getElementById("money-amount").value);
     const source = document.getElementById("money-source").value;
   
-    if (!isNaN(amount) && source.trim() !== "") {
-      if (amount === 0) {
-        alert("Amount cannot be zero.");
-        return;
-      }
-  
+    if (!isNaN(amount) && amount !== 0 && source.trim() !== "") {
       totalMoney += amount;
       updateTotalMoney();
       addMoneyTransaction(amount, source);
@@ -31,19 +30,14 @@ function toggleTransactions() {
   transactionsSection.style.display = transactionsSection.style.display === "none" ? "block" : "none";
 }
 
+// Add money transaction to the money section
 function addMoneyTransaction(amount, source) {
     const transactionsSection = document.getElementById("transactions");
     const transactionElement = document.createElement("div");
-  
-    if (amount >= 0) {
-      transactionElement.textContent = `Received $${amount.toFixed(2)} from: ${source}`;
-    } else {
-      transactionElement.textContent = `Spent $${Math.abs(amount).toFixed(2)} for: ${source}`;
-    }
-  
+    transactionElement.textContent = `${amount >= 0 ? "Received" : "Spent"} $${Math.abs(amount).toFixed(2)} from/to: ${source}`;
+    transactionElement.style.color = amount >= 0 ? "green" : "red"; // Set color based on positive/negative amount
     transactionsSection.appendChild(transactionElement);
   }
-  
 
 function clearMoneyInputs() {
   document.getElementById("money-amount").value = "";

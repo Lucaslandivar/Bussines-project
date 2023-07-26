@@ -28,16 +28,3 @@ function sellProduct() {
       alert("Invalid quantity or price!");
     }
   }
-
-  // Update options in the sell-product dropdown
-    function updateSellProductOptions() {
-        const sellProductSelect = document.getElementById("sell-product");
-        sellProductSelect.innerHTML = "";
-  
-        for (const product in stock) {
-            const productOption = document.createElement("option");
-            productOption.value = product;
-            productOption.textContent = capitalizeFirstLetter(product);
-            sellProductSelect.appendChild(productOption);
-    }
-  }
