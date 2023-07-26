@@ -24,6 +24,12 @@ function sellProduct() {
         updateStock();
         updateSoldProducts();
         updateTotalMoney();
+        updateRefillProducts();
+  
+        // Store the updated data in Local Storage
+        localStorage.setItem("stock", JSON.stringify(stock));
+        localStorage.setItem("soldProducts", JSON.stringify(soldProducts));
+        localStorage.setItem("totalMoney", JSON.stringify(totalMoney));
       } else {
         alert(`Not enough quantity in stock! Available quantity: ${availableQuantity}`);
       }

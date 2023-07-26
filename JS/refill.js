@@ -1,5 +1,4 @@
 // refill-container
-
 let refillProducts = {};
 
 function refillProduct() {
@@ -20,24 +19,30 @@ function refillProduct() {
     totalMoney -= totalCost;
 
     if (refillProducts[product]) {
-        refillProducts[product].quantity += quantity;
-        refillProducts[product].totalCost += totalCost;
-        refillProducts[product].pricePerItem = refillProducts[product].totalCost / refillProducts[product].quantity;
-      } else {
-        refillProducts[product] = { quantity, totalCost, pricePerItem: price };
-      }
-  
-      updateStock();
-      updateRefillProducts(); // Update refill products with red color
-      updateTotalMoney();
-  
-      document.getElementById("refill-product").value = "";
-      document.getElementById("refill-quantity").value = "1";
-      document.getElementById("refill-price").value = "";
+      refillProducts[product].quantity += quantity;
+      refillProducts[product].totalCost += totalCost;
+      refillProducts[product].pricePerItem = refillProducts[product].totalCost / refillProducts[product].quantity;
     } else {
-      alert("Invalid quantity or price!");
+      refillProducts[product] = { quantity, totalCost, pricePerItem: price };
     }
+
+    updateStock();
+    updateRefillProducts(); // Update refill products with red color
+    updateTotalMoney();
+    updateSellProductOptions();
+
+    // Store all the data in Local Storage
+    localStorage.setItem("stock", JSON.stringify(stock));
+    localStorage.setItem("refillProducts", JSON.stringify(refillProducts));
+    localStorage.setItem("totalMoney", JSON.stringify(totalMoney));
+
+    document.getElementById("refill-product").value = "";
+    document.getElementById("refill-quantity").value = "1";
+    document.getElementById("refill-price").value = "";
+  } else {
+    alert("Invalid quantity or price!");
   }
+}
 
 function addProductToStock(product, quantity) {
   const stockList = document.getElementById("stock-list");
@@ -68,5 +73,27 @@ function updateRefillProducts() {
       productElement.textContent = `${product}: ${quantity} refilled for $${totalCost.toFixed(2)} ($${pricePerItem.toFixed(2)} each)`;
       productElement.style.color = "red"; // Set color to red for refilled products
       refillProductMessage.appendChild(productElement);
+    }
+  }
+
+    // Define the updateSellProductOptions function
+  // In updateSellProductOptions() function
+function updateSellProductOptions() {
+    const sellProductSelect = document.getElementById("sell-product");
+    sellProductSelect.innerHTML = "";
+  
+    for (const product in stock) {
+      const productOption = document.createElement("option");
+      productOption.value = product;
+      productOption.textContent = capitalizeFirstLetter(product);
+      sellProductSelect.appendChild(productOption);
+    }
+  
+    // Add newly refilled product to sell-product options
+    for (const product in refillProducts) {
+      const productOption = document.createElement("option");
+      productOption.value = product;
+      productOption.textContent = capitalizeFirstLetter(product);
+      sellProductSelect.appendChild(productOption);
     }
   }

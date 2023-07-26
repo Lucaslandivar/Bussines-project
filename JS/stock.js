@@ -1,24 +1,10 @@
 // stock-container
-
 let stock = {
     cookie: 5,
     candy: 10,
     chocolate: 4,
   };
   
-  // Define the updateSellProductOptions function
-  function updateSellProductOptions() {
-    const sellProductSelect = document.getElementById("sell-product");
-    sellProductSelect.innerHTML = "";
-  
-    for (const product in stock) {
-      const productOption = document.createElement("option");
-      productOption.value = product;
-      productOption.textContent = capitalizeFirstLetter(product);
-      sellProductSelect.appendChild(productOption);
-    }
-  }
-
   // Get the correct product name from the stock
   function getProductFromStock(product) {
     for (const stockProduct in stock) {
@@ -35,6 +21,7 @@ let stock = {
       delete stock[product];
       updateStock();
       updateSellProductOptions(); // Update options in the sell-product dropdown
+      updateRefillProducts();
     }
   }
   
@@ -58,6 +45,29 @@ let stock = {
       stockList.appendChild(listItem);
     }
   }
+
+  // When the page loads, retrieve data from Local Storage if available
+    document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("stock")) {
+      stock = JSON.parse(localStorage.getItem("stock"));
+      updateStock();
+    }
+  
+    if (localStorage.getItem("soldProducts")) {
+      soldProducts = JSON.parse(localStorage.getItem("soldProducts"));
+      updateSoldProducts();
+    }
+  
+    if (localStorage.getItem("refillProducts")) {
+      refillProducts = JSON.parse(localStorage.getItem("refillProducts"));
+      updateRefillProducts();
+    }
+  
+    if (localStorage.getItem("totalMoney")) {
+      totalMoney = parseFloat(localStorage.getItem("totalMoney"));
+      updateTotalMoney();
+    }
+  });
 
   // Initialize the page with the current stock and sold products
     updateStock();

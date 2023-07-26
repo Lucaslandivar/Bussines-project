@@ -28,4 +28,11 @@ body {
   button {
     margin-top: 10px;
   }
-  
+
+  .positive-money {
+    color: green;
+  }
+
+  .negative-money {
+    color: red;
+  }
