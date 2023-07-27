@@ -1,4 +1,3 @@
-// money-container
 let totalMoney = 20;
 
 // Update the total money display and set color to green if money is >= 0
@@ -35,72 +34,50 @@ function clearMoneyInputs() {
 
 // Add money transaction to the transactions section
 function addMoneyTransaction(amount, source) {
-    const transactionsSection = document.getElementById("transactions");
-    const transactionElement = document.createElement("div");
-    transactionElement.innerHTML = `Received $${amount.toFixed(2)} from: ${source}`;
-    transactionElement.style.color = amount >= 0 ? "green" : "red"; // Set color to green for positive income and red for negative income
-  
-    const deleteButton = document.createElement("button");
-    deleteButton.textContent = "Delete";
-    deleteButton.onclick = () => {
-      deleteTransaction(transactionElement);
-      updateTransactionsInLocalStorage();
-    };
-  
-    transactionElement.appendChild(deleteButton);
-    transactionsSection.appendChild(transactionElement);
-  }
-  
-  // Function to delete a transaction
-  function deleteTransaction(transactionElement) {
+  const transactionsSection = document.getElementById("transactions");
+  const transactionElement = document.createElement("div");
+  transactionElement.innerHTML = `Received $${amount.toFixed(2)} from: ${source}`;
+  transactionElement.style.color = amount >= 0 ? "green" : "red"; // Set color to green for positive income and red for negative income
+
+  const deleteButton = document.createElement("button");
+  deleteButton.textContent = "Delete";
+  deleteButton.onclick = () => {
+    deleteTransaction(transactionElement, amount);
+  };
+
+  transactionElement.appendChild(deleteButton);
+  transactionsSection.appendChild(transactionElement);
+}
+
+// Function to delete a transaction
+function deleteTransaction(transactionElement, amount) {
+  const confirmationMessage = `Are you sure you want to delete the transaction with amount $${amount.toFixed(2)}?`;
+  const userConfirmed = confirm(confirmationMessage);
+
+  if (userConfirmed) {
+    totalMoney -= amount;
+    updateTotalMoney();
+
     const transactionsSection = document.getElementById("transactions");
     transactionsSection.removeChild(transactionElement);
-  }
-  
-  // Update the transactions data in Local Storage
-  function updateTransactionsInLocalStorage() {
-    const transactionsSection = document.getElementById("transactions");
-    const transactions = Array.from(transactionsSection.children).map(transaction => {
-      return {
-        content: transaction.innerHTML,
-        color: transaction.style.color
-      };
-    });
-    localStorage.setItem("transactions", JSON.stringify(transactions));
-  }
 
-  // Function to delete a transaction
-function deleteTransaction(transactionElement) {
-    const transactionContent = transactionElement.innerHTML;
-    const amountRegex = /Received \$([\d.]+) from:/; // Regex to match the amount in the transaction content
-    const match = transactionContent.match(amountRegex);
-  
-    if (match) {
-      const amount = parseFloat(match[1]);
-      const confirmationMessage = `Are you sure you want to delete the transaction with amount $${amount.toFixed(2)}?`;
-      const userConfirmed = confirm(confirmationMessage);
-  
-      if (userConfirmed) {
-        totalMoney -= amount;
-        updateTotalMoney();
-  
-        const transactionsSection = document.getElementById("transactions");
-        transactionsSection.removeChild(transactionElement);
-      }
-    }
+    // Store the updated total money and transactions in Local Storage
+    localStorage.setItem("totalMoney", JSON.stringify(totalMoney));
+    updateTransactionsInLocalStorage();
   }
+}
 
 // Update the transactions data in Local Storage
 function updateTransactionsInLocalStorage() {
-    const transactionsSection = document.getElementById("transactions");
-    const transactions = Array.from(transactionsSection.children).map(transaction => {
-      return {
-        content: transaction.innerHTML,
-        color: transaction.style.color
-      };
-    });
-    localStorage.setItem("transactions", JSON.stringify(transactions));
-  }
+  const transactionsSection = document.getElementById("transactions");
+  const transactions = Array.from(transactionsSection.children).map(transaction => {
+    return {
+      content: transaction.innerHTML,
+      color: transaction.style.color
+    };
+  });
+  localStorage.setItem("transactions", JSON.stringify(transactions));
+}
 
 // When the page loads, retrieve data from Local Storage if available
 document.addEventListener("DOMContentLoaded", () => {
@@ -133,9 +110,24 @@ document.addEventListener("DOMContentLoaded", () => {
       transactionElement.innerHTML = transaction.content;
       transactionElement.style.color = transaction.color;
       transactionsSection.appendChild(transactionElement);
+
+      // Add the delete button to each transaction
+      const deleteButton = document.createElement("button");
+      deleteButton.textContent = "Delete";
+      deleteButton.onclick = () => {
+        deleteTransaction(transactionElement, getAmountFromTransaction(transaction.content));
+      };
+      transactionElement.appendChild(deleteButton);
     });
   }
 });
+
+// Function to extract the amount from a transaction content
+function getAmountFromTransaction(content) {
+  const amountRegex = /Received \$([\d.]+) from:/; // Regex to match the amount in the transaction content
+  const match = content.match(amountRegex);
+  return match ? parseFloat(match[1]) : 0;
+}
 
 // Initialize the page with the current stock and sold products
 updateStock();
