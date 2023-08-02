@@ -1,0 +1,95 @@
+/* Money Section */
+.moneyContainer {
+    border: 5px;
+    border-bottom: 1px solid #000;
+    margin: 0 auto 5px 3px;
+    padding: 5px;
+    position: relative;
+    background: #F4F2DE;
+}
+
+#inputMoney {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+#inputMoney input {
+    border-radius: 5px;
+    background-color: azure;
+    text-decoration: none;
+    text-align: center;
+    width: 60px;
+    height: 25px;
+}
+
+/* Positive or negative money */
+.positive {
+    color: green;
+}
+
+.negative {
+    color: red;
+}
+
+/* Money button */
+#moneyBtn {
+    height: 25px;
+    width: 75px;
+    color: #000;
+    border-radius: 6px;
+    background-color: #A2FF86;
+    opacity: 0.5;
+    transition: 0.1s;
+    cursor: pointer;
+}
+
+#moneyBtn:hover {
+    color: #fff;
+    opacity: 1;
+    height: 26px;
+    width: 76px;
+}
+
+/* Transactions */
+#transactions {
+    width: 100%;
+    padding: 3px;
+    margin-top: 6px;
+    border-top: 2px dotted #000;
+}
+
+.positiveMoneyTransaction {
+    color: green;
+    margin-left: 7px;
+}
+
+.negativeMoneyTransaction {
+    color: red;
+    margin-left: 3px;
+}
+
+.transactionInfo {
+    color: brown;
+}
+
+/* Responsividade */
+@media screen and (max-width: 600px) {
+    #inputMoney {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    #inputMoney input {
+        width: 100%;
+    }
+
+    #moneyBtn {
+        width: 100%;
+        margin-top: 5px;
+        color: #fff;
+        border-radius: 6px;
+        background-color: #A2FF86;
+        opacity: 1;
+    }
+}

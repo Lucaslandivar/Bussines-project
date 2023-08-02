@@ -1,86 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Business</title>
-  <link rel="stylesheet" href="CSS/styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bussines</title>
+    <!-- links -->
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Teko:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Icons -->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <!-- CSS -->
+    <link rel="stylesheet" href="CSS/styles.css">
+    <link rel="stylesheet" href="CSS/money.css">
+    <!-- Scripts -->
+    <script src="JS/script.js" defer></script>
 </head>
 <body>
-  <div class="container">
-    <div class="section" id="stock-container">
-      <h2>Stock</h2>
-      <ul id="stock-list">
-        <li>
-          <span contenteditable="true" class="product-name" data-product="cookie">Cookie</span>: 
-          <span class="product-quantity" id="stock-cookie">5</span>
-          <button onclick="deleteProduct('cookie')">Remove</button>
-        </li>
-        <li>
-          <span contenteditable="true" class="product-name" data-product="candy">Candy</span>: 
-          <span class="product-quantity" id="stock-candy">10</span>
-          <button onclick="deleteProduct('candy')">Remove</button>
-        </li>
-        <li>
-          <span contenteditable="true" class="product-name" data-product="chocolate">Chocolate</span>: 
-          <span class="product-quantity" id="stock-chocolate">4</span>
-          <button onclick="deleteProduct('chocolate')">Remove</button>
-        </li>
-      </ul>
+    <!-- Money section -->
+    <div class="container">
+        <div class="moneyContainer">
+            <h2>Dinheiro<i class='bx bx-dollar-circle'></i></h2>
+            <p> Dinheiro Total: <span id="totalMoney" class="positive">$20</span></p>
+            <div id="inputMoney">
+                <label for="money-amount">Adicionar Dinheiro:</label>
+                <input type="number" id="money-amount" placeholder="Quantidade">
+                <label for="money-source">De onde o dinheiro veio:</label>
+                <input type="text" id="money-source" placeholder="Informação">
+                <button type="submit" id="moneyBtn"><i class='bx bx-dollar'></i></button>
+            </div>
+            <div id="transactions">
+                <h2>Transações<i class='bx bxs-credit-card'></i></h2>
+            <ul id="TransactionsList">
+                <li><span class="positiveMoneyTransaction">$20</span> foram adicionados de: <span class="transactionInfo">presente</span></li>
+                <li><span class="negativeMoneyTransaction">-$10</span> foram descontados por: <span class="transactionInfo">camisa</span></li>
+            </div>
+            </ul>
+        </div>
     </div>
-    
-    <div class="section" id="sell-container">
-      <h2>Sell Products</h2>
-      <label for="sell-product">Select Product:</label>
-      <select id="sell-product">
-        <option value="cookie">Cookie</option>
-        <option value="candy">Candy</option>
-        <option value="chocolate">Chocolate</option>
-      </select>
-      <label for="sell-quantity">Quantity:</label>
-      <input type="number" id="sell-quantity" min="1" value="1">
-      <label for="sell-price">Selling Price:</label>
-      <input type="number" id="sell-price">
-      <button onclick="sellProduct()">Sell</button>
-    </div>
-    
-    <div class="section" id="sold-product-container">
-      <h2>Sold Products</h2>
-      <!-- This section will be dynamically updated with sold products -->
-    </div>
-    
-    <div class="section" class="refill-section">
-      <h2>Refill Products</h2>
-      <div class="refill-inputs">
-        <label for="refill-product">Product:</label>
-        <input type="text" id="refill-product" placeholder="Product name">
-        <label for="refill-quantity">Quantity:</label>
-        <input type="number" id="refill-quantity" value="1">
-        <label for="refill-price">Price:</label>
-        <input type="number" id="refill-price" step="0.01" placeholder="Product price">
-        <button onclick="refillProduct()">Refill</button>
-        <div id="refill-product-message"></div>
-      </div>
-      <div id="refill-product-container"></div>
-    </div>
-  </div>
-    
-  <div class="section" id="money-container">
-    <h2>Money</h2>
-    <p>Total Money: $<span id="total-money">20</span></p>
-    <label for="money-amount">Add Money:</label>
-    <input type="number" id="money-amount" step="0.01" placeholder="Amount">
-    <label for="money-source">Source:</label>
-    <input type="text" id="money-source" placeholder="Source of money">
-    <button onclick="addMoney()">Add Money</button>
-  </div>
-  
-  <div id="transactions"></div>
-
-  <script src="JS/stock.js"></script>
-  <script src="JS/sell.js"></script>
-  <script src="JS/refill.js"></script>
-  <script src="JS/sold.js"></script>
-  <script src="JS/money.js"></script>
 </body>
 </html>
