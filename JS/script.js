@@ -1,13 +1,15 @@
 // Money Section
 // Seleção de Elementos
-const totalMoney = document.getElementById("totalMoney");
+const totalMoneyAmount = document.getElementById("totalMoney");
 const moneyAmountInput = document.getElementById("money-amount");
 const moneySourceInput = document.getElementById("money-source");
 const transactionList = document.getElementById("transactionsList");
 const moneyBtn = document.getElementById("moneyBtn");
 
+let totalMoney = 20;
 
 // Funções
+// Adicionar uma transação
 function addTransaction() {
     const moneyAmount = parseFloat(moneyAmountInput.value);
     const moneySource = moneySourceInput.value;
@@ -29,6 +31,7 @@ function addTransaction() {
         moneySourceInput.value = '';
     }
 };
+
 
 // Eventos
 moneyBtn.addEventListener("click", (e) => {
