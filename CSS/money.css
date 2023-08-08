@@ -1,6 +1,5 @@
 /* Money Section */
-.moneyContainer {
-    border: 5px;
+#moneyContainer {
     border-bottom: 1px solid #000;
     margin: 0 auto 5px 3px;
     padding: 5px;
@@ -91,5 +90,9 @@
         border-radius: 6px;
         background-color: #A2FF86;
         opacity: 1;
+    }
+
+    #moneyBtn:hover {
+        width: 100%;
     }
 }

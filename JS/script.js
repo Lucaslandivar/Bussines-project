@@ -10,14 +10,14 @@ let totalMoney = 20;
 
 // Funções
 
-// Adicionar uma transação
-
+// Função de atualizar o dinheiro total na conta
 function updateTotalMoney() {
     const totalMoneyAmount = document.getElementById("totalMoney");
     totalMoneyAmount.textContent = totalMoney >= 0 ? `$${totalMoney.toFixed(2)}` : `-$${Math.abs(totalMoney.toFixed(2))}`;
     totalMoneyAmount.style.color = totalMoney >= 0 ? "green" : "red";
 }
 
+// Função de adicionar transação
 function addTransaction() {
 
     const moneyAmount = parseFloat(moneyAmountInput.value);
@@ -37,6 +37,7 @@ function addTransaction() {
     moneyLi.classList.add("moneyLi");
     transactionList.appendChild(moneyLi);
 
+    // Se os valores estiverem vazios
     if (isNaN(moneyAmount) || moneyAmountInput.value === '' || moneySourceInput.value === '') {
         alert("Valores incorretos!");
     } else {
