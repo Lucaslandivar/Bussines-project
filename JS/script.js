@@ -22,8 +22,16 @@ function addTransaction() {
 
     const moneyAmount = parseFloat(moneyAmountInput.value);
     const moneySource = moneySourceInput.value;
+
+        // Se os valores estiverem vazios
+        if (isNaN(moneyAmount) || moneyAmountInput.value === '' || moneySourceInput.value === '') {
+            alert("Valores incorretos!");
+            return;
+        } 
+
     const moneyLi = document.createElement("li");
 
+    // Criar um novo elemento na parte das transações
     if (moneyAmount >= 0) {
         moneyLi.innerHTML = `<span class="positiveMoneyTransaction">$${moneyAmount}</span> foram adicionados de: <span class="transactionInfo">${moneySource}</span>`;
         totalMoney += moneyAmount;
@@ -37,19 +45,37 @@ function addTransaction() {
     moneyLi.classList.add("moneyLi");
     transactionList.appendChild(moneyLi);
 
-    // Se os valores estiverem vazios
-    if (isNaN(moneyAmount) || moneyAmountInput.value === '' || moneySourceInput.value === '') {
-        alert("Valores incorretos!");
-    } else {
-        moneyAmountInput.value = ''; 
-        moneySourceInput.value = '';
-    }
+    // Limpar os inputs e focar no moneyAmountInput depois de limpado
+    moneyAmountInput.value = ''; 
+    moneySourceInput.value = '';
 
+    moneyAmountInput.focus();
 };
 
 // Eventos
+
+// Quando o botão é clicado:
 moneyBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
     addTransaction();
+});
+
+// Quando a tecla enter é precionda:
+moneyAmountInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+
+        e.preventDefault();
+
+        addTransaction();
+    }
+});
+
+moneySourceInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        
+        e.preventDefault();
+
+        addTransaction();
+    }
 });
