@@ -25,7 +25,7 @@ I have divided this project into five parts:
 <p>JavaScript</p>
 
 <h2>Status</h2>
-<p>In progress.</p>
+<p>1/5 finish.</p>
 
 <h2>Author</h2>
 <p>Lucas Landivar de Morais</p>
