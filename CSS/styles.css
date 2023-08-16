@@ -6,15 +6,13 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    font-family: 'Teko', sans-serif;
 }
 
 ul li {
     list-style: none;
 }
 
-.container {
-    position: relative;
+header {
     width: 100%;
     background: #fff;
 }
