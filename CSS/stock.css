@@ -4,17 +4,49 @@
 /* Stock Section */
 main {
     background-color: #ccc;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    width: 300px;
+    margin-left: 5px;
+}
+
+#stockContainer {
+    width: 300px;
+    position: relative;
+    height: auto;
 }
 
 .products {
     font-size: small;
     font-family: 'Roboto', sans-serif;
     gap: 2px;
-    margin: 2px;
+    margin: 5px;
     padding: 2px;
-    border: 1px solid #000;
-    width: 100%;
+    height: 40px;
+    border-bottom: 1px solid #000;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: 0.7s;
+    position: relative;
+}
+
+.products .bx-money-withdraw {
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 25px;
+    padding: 5px;
+    color: green;
+}
+
+.products .bx-trash {
+    opacity: 0;
+    cursor: pointer;
+    position: absolute;
+    right: 5px;
+    padding: 5px;
+    color: red;
+}
+
+.products:hover > i {
+    opacity: 1;
 }
