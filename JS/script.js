@@ -95,7 +95,7 @@ function removeProduct(event) {
     const deleteButton = event.currentTarget; 
     const productElement = deleteButton.parentElement;
     
-    if (productElement) {
+    if (confirm(`Tem certeza que quer remover este produto?`)) {
         productElement.remove(); 
     }
 }

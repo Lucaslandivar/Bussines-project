@@ -19,6 +19,7 @@ main {
 #stockContainer h2 {
     border: 1px dotted #000;
     background-color: #008248;
+    color: #CEDEBD;
 }
 
 .products {
