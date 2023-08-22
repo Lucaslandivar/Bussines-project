@@ -3,15 +3,22 @@
 
 /* Stock Section */
 main {
-    background-color: #ccc;
     width: 300px;
     margin-left: 5px;
+    background-color: #f1f8f6;
 }
 
 #stockContainer {
     width: 300px;
     position: relative;
     height: auto;
+    background-color: #d4e9e2;
+    text-align: center;
+}
+
+#stockContainer h2 {
+    border: 1px dotted #000;
+    background-color: #008248;
 }
 
 .products {

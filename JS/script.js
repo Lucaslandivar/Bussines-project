@@ -79,3 +79,21 @@ moneySourceInput.addEventListener("keydown", (e) => {
         addTransaction();
     }
 });
+
+// Stock Container
+
+// Seleção de Elementos
+const productAmount = document.querySelector(".productAmount");
+const productsElements = document.querySelector(".products");
+const stockContainer = document.getElementById("stockContainer");
+const deleteBtn = document.querySelectorAll(".bx-trash");
+
+// Funções
+
+// Eventos
+// Evento de apagar produtos no botão de apagar
+deleteBtn.forEach(deleteButton => {
+    deleteButton.addEventListener("click", () => {
+        console.log("producto apagado");
+    });
+});
