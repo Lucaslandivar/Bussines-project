@@ -90,10 +90,19 @@ const deleteBtn = document.querySelectorAll(".bx-trash");
 
 // Funções
 
+// Remover produtos do stock
+function removeProduct(event) {
+    const deleteButton = event.currentTarget; 
+    const productElement = deleteButton.parentElement;
+    
+    if (productElement) {
+        productElement.remove(); 
+    }
+}
+
 // Eventos
+
 // Evento de apagar produtos no botão de apagar
 deleteBtn.forEach(deleteButton => {
-    deleteButton.addEventListener("click", () => {
-        console.log("producto apagado");
-    });
+    deleteButton.addEventListener("click", removeProduct);
 });
