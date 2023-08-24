@@ -1,0 +1,64 @@
+/* Sell section */
+
+/* Containers */
+.sellContainer {
+    background-color: beige;
+    padding: 3px;
+    width: 400px;
+    margin-bottom: 5px;
+}
+
+#sell {
+    margin-top: 5px;
+}
+
+/* Inputs */
+#sellInputs {
+    margin-top: 3px;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    margin-top: 7px;
+}
+
+#detailInput {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.product-in-sell {
+    color: brown;
+}
+
+#sell input {
+    border-radius: 5px;
+    background-color: azure;
+    text-decoration: none;
+    text-align: center;
+    width: 80px;
+    height: 25px;
+}
+
+/* Botões */
+#sellBtn {
+    height: 25px;
+    width: 35px;
+    color: #fff;
+    border-radius: 6px;
+    background-color: #A2FF86;
+    cursor: pointer;
+}
+
+#cancelBtn {
+    height: 25px;
+    width: 35px;
+    color: #BB2525;
+    border-radius: 6px;
+    background-color: #FF6969;
+    cursor: pointer;
+}
+
+/* Esconder container */
+.hide {
+    display: none;
+}

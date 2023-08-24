@@ -8,6 +8,11 @@
     box-sizing: border-box;
 }
 
+#container {
+    display: flex;
+    align-items: flex-start;
+}
+
 ul li {
     list-style: none;
 }

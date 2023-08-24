@@ -9,9 +9,7 @@ main {
 }
 
 #stockContainer {
-    width: 300px;
-    position: relative;
-    height: auto;
+    width: 400px;
     background-color: #d4e9e2;
     text-align: center;
 }

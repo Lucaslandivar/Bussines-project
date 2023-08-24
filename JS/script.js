@@ -87,6 +87,7 @@ const productAmount = document.querySelector(".productAmount");
 const productsElements = document.querySelector(".products");
 const stockContainer = document.getElementById("stockContainer");
 const deleteBtn = document.querySelectorAll(".bx-trash");
+const sellProductBtn = document.querySelectorAll(".bx-money-withdraw");
 
 // Funções
 
@@ -100,9 +101,28 @@ function removeProduct(event) {
     }
 }
 
+// Trocar a clase da sell section
+function goToSell(event) {
+    const sellContainer = document.getElementsByClassName("sellContainer")[0];
+    sellContainer.classList.toggle("hide");
+}
+
 // Eventos
 
 // Evento de apagar produtos no botão de apagar
 deleteBtn.forEach(deleteButton => {
     deleteButton.addEventListener("click", removeProduct);
 });
+
+// Evento de trocar a clase do botão de vender
+sellProductBtn.forEach(sellProductBtn => {
+    sellProductBtn.addEventListener("click", goToSell);
+})
+
+// Sell container 
+
+// Seleção de elementos
+
+// Funções
+
+// Eventos
