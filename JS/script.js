@@ -117,7 +117,7 @@ deleteBtn.forEach(deleteButton => {
 // Evento de trocar a clase do botão de vender
 sellProductBtn.forEach(sellProductBtn => {
     sellProductBtn.addEventListener("click", goToSell);
-})
+});
 
 // Sell container 
 
