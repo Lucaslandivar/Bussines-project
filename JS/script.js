@@ -122,6 +122,7 @@ sellProductBtn.forEach(sellProductBtn => {
 // Sell container 
 
 // Seleção de elementos
+const productInSell = document.getElementsByClassName("product-in-sell");
 
 // Funções
 
