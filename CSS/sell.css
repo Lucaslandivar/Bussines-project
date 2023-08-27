@@ -1,6 +1,6 @@
-/* Sell section */
+/* !Sell section */
 
-/* Containers */
+/* *Containers */
 .sellContainer {
     background-color: beige;
     padding: 3px;
@@ -12,7 +12,7 @@
     margin-top: 5px;
 }
 
-/* Inputs */
+/* *Inputs */
 #sellInputs {
     margin-top: 3px;
     display: flex;
@@ -39,7 +39,7 @@
     height: 25px;
 }
 
-/* Botões */
+/* *Botões */
 #sellBtn {
     height: 25px;
     width: 35px;
@@ -58,7 +58,7 @@
     cursor: pointer;
 }
 
-/* Esconder container */
+/* ?Esconder container */
 .hide {
     display: none;
 }

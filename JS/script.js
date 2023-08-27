@@ -1,6 +1,6 @@
-// Money Section
+// !Money Section
 
-// Seleção de Elementos
+// ?Seleção de Elementos
 const moneyAmountInput = document.getElementById("money-amount");
 const moneySourceInput = document.getElementById("money-source");
 const transactionList = document.getElementById("transactionsList");
@@ -8,22 +8,22 @@ const moneyBtn = document.getElementById("moneyBtn");
 
 let totalMoney = 20;
 
-// Funções
+// ?Funções
 
-// Função de atualizar o dinheiro total na conta
+// *Função de atualizar o dinheiro total na conta
 function updateTotalMoney() {
     const totalMoneyAmount = document.getElementById("totalMoney");
     totalMoneyAmount.textContent = totalMoney >= 0 ? `$${totalMoney.toFixed(2)}` : `-$${Math.abs(totalMoney.toFixed(2))}`;
     totalMoneyAmount.style.color = totalMoney >= 0 ? "green" : "red";
 }
 
-// Função de adicionar transação
+// *Função de adicionar transação
 function addTransaction() {
 
     const moneyAmount = parseFloat(moneyAmountInput.value);
     const moneySource = moneySourceInput.value;
 
-        // Se os valores estiverem vazios
+        // *Se os valores estiverem vazios
         if (isNaN(moneyAmount) || moneyAmountInput.value === '' || moneySourceInput.value === '') {
             alert("Valores incorretos!");
             return;
@@ -31,7 +31,7 @@ function addTransaction() {
 
     const moneyLi = document.createElement("li");
 
-    // Criar um novo elemento na parte das transações
+    // *Criar um novo elemento na parte das transações
     if (moneyAmount >= 0) {
         moneyLi.innerHTML = `<span class="positiveMoneyTransaction">$${moneyAmount}</span> foram adicionados de: <span class="transactionInfo">${moneySource}</span>`;
         totalMoney += moneyAmount;
@@ -45,23 +45,23 @@ function addTransaction() {
     moneyLi.classList.add("moneyLi");
     transactionList.appendChild(moneyLi);
 
-    // Limpar os inputs e focar no moneyAmountInput depois de limpado
+    // *Limpar os inputs e focar no moneyAmountInput depois de limpado
     moneyAmountInput.value = ''; 
     moneySourceInput.value = '';
 
     moneyAmountInput.focus();
 };
 
-// Eventos
+// ?Eventos
 
-// Quando o botão é clicado:
+// *Quando o botão é clicado:
 moneyBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
     addTransaction();
 });
 
-// Quando a tecla enter é precionda:
+// *Quando a tecla enter é precionda:
 moneyAmountInput.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
 
@@ -80,18 +80,19 @@ moneySourceInput.addEventListener("keydown", (e) => {
     }
 });
 
-// Stock Container
+// !Stock Container
 
-// Seleção de Elementos
+// ?Seleção de Elementos
 const productAmount = document.querySelector(".productAmount");
 const productsElements = document.querySelector(".products");
 const stockContainer = document.getElementById("stockContainer");
 const deleteBtn = document.querySelectorAll(".bx-trash");
 const sellProductBtn = document.querySelectorAll(".bx-money-withdraw");
+const sellContainer = document.getElementsByClassName("sellContainer")[0];
 
-// Funções
+// ?Funções
 
-// Remover produtos do stock
+// *Remover produtos do stock
 function removeProduct(event) {
     const deleteButton = event.currentTarget; 
     const productElement = deleteButton.parentElement;
@@ -101,29 +102,71 @@ function removeProduct(event) {
     }
 }
 
-// Trocar a clase da sell section
+// *Trocar a clase da sell section
 function goToSell(event) {
-    const sellContainer = document.getElementsByClassName("sellContainer")[0];
     sellContainer.classList.toggle("hide");
+
 }
 
-// Eventos
+// ?Eventos
 
-// Evento de apagar produtos no botão de apagar
+// *Evento de apagar produtos no botão de apagar
 deleteBtn.forEach(deleteButton => {
     deleteButton.addEventListener("click", removeProduct);
 });
 
-// Evento de trocar a clase do botão de vender
+// *Evento de trocar a clase do botão de vender
 sellProductBtn.forEach(sellProductBtn => {
     sellProductBtn.addEventListener("click", goToSell);
 });
 
-// Sell container 
+// !Sell container 
 
-// Seleção de elementos
-const productInSell = document.getElementsByClassName("product-in-sell");
+// ?Seleção de elementos
+const cancelBtn = document.getElementById("cancelBtn");
+const sellBtn = document.getElementById("sellBtn");
+const sellAmountInput = document.getElementById("product-sell-amount");
+const sellPriceInput = document.getElementById("product-sell-price");
+const sellDetailsInput = document.getElementById("sell-details");
 
-// Funções
+let kitKat = 10;
+let guarana = 5;
+let bisExtra = 3;
 
-// Eventos
+// ?Funções
+
+// *Sell product
+function sellProduct() {
+
+    const sellAmount = parseFloat(sellAmountInput.value);
+    const sellPrice = parseFloat(sellPriceInput.value);
+    const sellDetails = sellDetailsInput.value;
+
+    // *Se os valores estiverem vazios
+    if (isNaN(sellAmount) || sellPriceInput.value === '' || sellDetailsInput.value === '') {
+        alert("Valores incorretos!");
+        return;
+
+    } else {
+        console.log(sellAmount, sellPrice, sellDetails);
+    }
+
+    // *Limpar os valores dos inputs
+    sellAmountInput.value = "";
+    sellPriceInput.value = "";
+    sellDetailsInput.value = "";
+}
+
+// ?Eventos
+
+// *vender Btn
+sellBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    sellProduct();
+})
+
+// *Cancelar Venda
+cancelBtn.addEventListener("click", () => {
+    sellContainer.classList.toggle("hide");
+});

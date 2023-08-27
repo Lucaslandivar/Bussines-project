@@ -1,4 +1,4 @@
-/* Money Section */
+/* !Money Section */
 #moneyContainer {
     border-bottom: 1px solid #000;
     margin: 0 auto 5px 3px;
@@ -23,7 +23,7 @@
     font-family: 'Teko', sans-serif;
 }
 
-/* Positive or negative money */
+/* *Positive or negative money */
 .positive {
     color: green;
 }
@@ -32,7 +32,7 @@
     color: red;
 }
 
-/* Money button */
+/* *Money button */
 #moneyBtn {
     height: 25px;
     width: 75px;
@@ -51,7 +51,7 @@
     width: 76px;
 }
 
-/* Transactions */
+/* !Transactions */
 #transactions {
     width: 100%;
     padding: 3px;
@@ -73,7 +73,7 @@
     color: brown;
 }
 
-/* Responsividade */
+/* ?Responsividade */
 @media screen and (max-width: 600px) {
     #inputMoney {
         flex-direction: column;
