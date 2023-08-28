@@ -75,6 +75,12 @@
             <div id="sellInputs">
                 <label for="product-sell-amount">Quantos:</label>
                 <input type="number" id="product-sell-amount" placeholder="Quantidade">
+                <label for="product-in-sell">Produtos</label>
+                <select  id="product-in-sell">
+                    <option value="kitKat">Kit Kat</option>
+                    <option value="guarana">Guaraná</option>
+                    <option value="bisExtra">Bis Extra</option>
+                </select>
             </div>
             <div id="detailInput">
                 <label for="sell-details">Detalhes da venda:</label>
@@ -89,9 +95,21 @@
     <div id="soldContainer">
         <h2>Vendas<i class='bx bxs-cart-add'></i></h2>
         <ul id="soldList">
-            <li class="soldLi"><span class="soldAmount">5 </span><span class="soldProduct">Kit Kat vendidos por: </span><span class="positive">$20</span> p: <span class="soldInfo">Lucas</span></li>
+            <li class="soldLi"><span class="soldAmount">5 </span><span class="soldProduct">Kit Kat vendidos por: </span><span class="positive">$20</span> para: <span class="soldInfo">Lucas</span></li>
             <li class="soldLi"><span class="soldAmount">2 </span><span class="soldProduct">Guaraná vendidos por: </span><span class="positive">$10</span> para: <span class="soldInfo">Valentina</span></li>
         </ul>
+    </div>
+    <!-- !Refill Section -->
+    <div id="refillContainer">
+        <h2>Comprar mais produtos<i class='bx bx-basket'></i></i></h2>
+        <label for="refillProduct">Produto:</label>
+        <input type="text" id="refillProduct" placeholder="Insira o nome do produto">
+        <label for="refillAmount">Quantidade:</label>
+        <input type="number" id="refillAmount" placeholder="Quantidade">
+        <label for="refillPrice">Preço de compra:</label>
+        <input type="number" id="refillPrice" placeholder="Preço de compra">
+        <button type="submit" id="refillBtn"><i class='bx bxs-basket'></i></button>
+        <button type="submit" id="cancelRefillBtn"><i class='bx bxs-x-circle'></i></button>
     </div>
 </body>
 </html>

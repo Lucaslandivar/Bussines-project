@@ -90,9 +90,16 @@ const deleteBtn = document.querySelectorAll(".bx-trash");
 const sellProductBtn = document.querySelectorAll(".bx-money-withdraw");
 const sellContainer = document.getElementsByClassName("sellContainer")[0];
 
-let productCounter = 1;
-
 // ?Funções
+
+function getProductFromStock(product) {
+    for (const stockProduct in stock) {
+    if (stockProduct.toLowerCase() === product.toLowerCase()) {
+        return stockProduct;
+        }
+    }
+    return product.toLowerCase();
+}
 
 // *Remover produtos do stock
 function removeProduct(event) {
@@ -107,13 +114,6 @@ function removeProduct(event) {
 // *Trocar a clase da sell section
 function goToSell(event) {
     sellContainer.classList.toggle("hide");
-}
-
-// *Gerador de classe para os productos
-function generateProductsName() {
-    const className = `product${productCounter}`;
-    productCounter++;
-    return className;
 }
 
 // ?Eventos
@@ -134,11 +134,10 @@ sellProductBtn.forEach(sellProductBtn => {
 const cancelBtn = document.getElementById("cancelBtn");
 const sellBtn = document.getElementById("sellBtn");
 const sellAmountInput = document.getElementById("product-sell-amount");
-const sellPriceInput = document.getElementById("product-sell-price");
+const productsInSale = document.getElementById("product-in-sell");
 const sellDetailsInput = document.getElementById("sell-details");
 
-let sellPrice = 5;
-
+let sellPrice = 3.50;
 // ?Funções
 
 // *Sell product
@@ -147,16 +146,19 @@ function sellProduct() {
     const sellAmount = parseFloat(sellAmountInput.value);
     const sellDetails = sellDetailsInput.value;
     const soldList = document.getElementById("soldList")
-    const productLi = document.createElement("li");
+    const productLi = document.createElement("li"); 
+
+    // *Multiplicar a quantidade vezes o preço do produto
+    const finalSellPrice = sellAmount * sellPrice;
 
     // *Se os valores estiverem vazios
     if (isNaN(sellAmount) || sellDetailsInput.value === '') {
         alert("Valores incorretos!");
         return;
-
     } else {
-        productLi.innerHTML = `<li class="soldLi"><span class="soldAmount">${sellAmount} </span><span class="soldProduct">Kit Kat vendidos: </span><span class="positive">$${sellPrice}</span> foram comprados por: <span class="soldInfo">${sellDetails}</span></li>`;
-        totalMoney += sellPrice;
+        // *Criar uma Li com o resultado 
+        productLi.innerHTML = `<li class="soldLi"><span class="soldAmount">${sellAmount} </span><span class="soldProduct">Kit Kat vendidos: </span><span class="positive">$${finalSellPrice}</span> foram comprados por: <span class="soldInfo">${sellDetails}</span></li>`;
+        totalMoney += finalSellPrice;
         updateTotalMoney();
     }
 
@@ -182,3 +184,11 @@ sellBtn.addEventListener("click", (e) => {
 cancelBtn.addEventListener("click", () => {
     sellContainer.classList.toggle("hide");
 });
+
+// !Refill Section
+
+// ?Seleção de elementos
+
+// ?Funções
+
+// ?Eventos
