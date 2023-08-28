@@ -42,6 +42,7 @@ function addTransaction() {
         updateTotalMoney();
     }
 
+    // *criando e adicionando o novo Li
     moneyLi.classList.add("moneyLi");
     transactionList.appendChild(moneyLi);
 
@@ -83,12 +84,13 @@ moneySourceInput.addEventListener("keydown", (e) => {
 // !Stock Container
 
 // ?Seleção de Elementos
-const productAmount = document.querySelector(".productAmount");
 const productsElements = document.querySelector(".products");
 const stockContainer = document.getElementById("stockContainer");
 const deleteBtn = document.querySelectorAll(".bx-trash");
 const sellProductBtn = document.querySelectorAll(".bx-money-withdraw");
 const sellContainer = document.getElementsByClassName("sellContainer")[0];
+
+let productCounter = 1;
 
 // ?Funções
 
@@ -105,7 +107,13 @@ function removeProduct(event) {
 // *Trocar a clase da sell section
 function goToSell(event) {
     sellContainer.classList.toggle("hide");
+}
 
+// *Gerador de classe para os productos
+function generateProductsName() {
+    const className = `product${productCounter}`;
+    productCounter++;
+    return className;
 }
 
 // ?Eventos
@@ -129,9 +137,7 @@ const sellAmountInput = document.getElementById("product-sell-amount");
 const sellPriceInput = document.getElementById("product-sell-price");
 const sellDetailsInput = document.getElementById("sell-details");
 
-let kitKat = 10;
-let guarana = 5;
-let bisExtra = 3;
+let sellPrice = 5;
 
 // ?Funções
 
@@ -139,21 +145,27 @@ let bisExtra = 3;
 function sellProduct() {
 
     const sellAmount = parseFloat(sellAmountInput.value);
-    const sellPrice = parseFloat(sellPriceInput.value);
     const sellDetails = sellDetailsInput.value;
+    const soldList = document.getElementById("soldList")
+    const productLi = document.createElement("li");
 
     // *Se os valores estiverem vazios
-    if (isNaN(sellAmount) || sellPriceInput.value === '' || sellDetailsInput.value === '') {
+    if (isNaN(sellAmount) || sellDetailsInput.value === '') {
         alert("Valores incorretos!");
         return;
 
     } else {
-        console.log(sellAmount, sellPrice, sellDetails);
+        productLi.innerHTML = `<li class="soldLi"><span class="soldAmount">${sellAmount} </span><span class="soldProduct">Kit Kat vendidos: </span><span class="positive">$${sellPrice}</span> foram comprados por: <span class="soldInfo">${sellDetails}</span></li>`;
+        totalMoney += sellPrice;
+        updateTotalMoney();
     }
+
+    productLi.classList.add("soldLi");
+    soldList.appendChild(productLi);
+
 
     // *Limpar os valores dos inputs
     sellAmountInput.value = "";
-    sellPriceInput.value = "";
     sellDetailsInput.value = "";
 }
 
