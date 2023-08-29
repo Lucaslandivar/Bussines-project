@@ -6,3 +6,11 @@
     border-top: 1px solid #000;
     background-color: #FAF1E4;
 }
+
+.soldAmount {
+    color: green;
+}
+
+.soldInfo {
+    color: brown;
+}

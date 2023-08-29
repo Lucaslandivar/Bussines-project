@@ -90,15 +90,31 @@ const deleteBtn = document.querySelectorAll(".bx-trash");
 const sellProductBtn = document.querySelectorAll(".bx-money-withdraw");
 const sellContainer = document.getElementsByClassName("sellContainer")[0];
 
+// *Quantidades iniciais dos produtos
+const initialProductAmounts = {
+    kitKat: 10,
+    guarana: 5,
+    bisExtra: 3,
+};
+
 // ?Funções
 
-function getProductFromStock(product) {
-    for (const stockProduct in stock) {
-    if (stockProduct.toLowerCase() === product.toLowerCase()) {
-        return stockProduct;
+// *Atualizar a quantidade do produto
+function updateProductAmount(productName, soldQuantity) {
+    if (initialProductAmounts.hasOwnProperty(productName)) {
+        // *Ver se há suficientes produtos no stock para vender
+        if (soldQuantity > initialProductAmounts[productName]) {
+            alert("Não há produto suficiente.");
+            return;
+        }
+
+        initialProductAmounts[productName] -= soldQuantity;
+        const productAmountElement = document.querySelector(`.productAmount[data-product="${productName}"]`);
+        
+        if (productAmountElement) {
+            productAmountElement.textContent = initialProductAmounts[productName];
         }
     }
-    return product.toLowerCase();
 }
 
 // *Remover produtos do stock
@@ -137,7 +153,12 @@ const sellAmountInput = document.getElementById("product-sell-amount");
 const productsInSale = document.getElementById("product-in-sell");
 const sellDetailsInput = document.getElementById("sell-details");
 
-let sellPrice = 3.50;
+const productPrices = {
+    kitKat: 3.50,
+    guarana: 2.50,
+    bisExtra: 3.50,
+};
+
 // ?Funções
 
 // *Sell product
@@ -147,9 +168,12 @@ function sellProduct() {
     const sellDetails = sellDetailsInput.value;
     const soldList = document.getElementById("soldList")
     const productLi = document.createElement("li"); 
+    // *Selecionar o produto individualmente
+    const productDropdown = productsInSale.value;
+    const productPrice = productPrices[productDropdown];
 
     // *Multiplicar a quantidade vezes o preço do produto
-    const finalSellPrice = sellAmount * sellPrice;
+    const finalSellPrice = sellAmount * productPrice;
 
     // *Se os valores estiverem vazios
     if (isNaN(sellAmount) || sellDetailsInput.value === '') {
@@ -157,8 +181,9 @@ function sellProduct() {
         return;
     } else {
         // *Criar uma Li com o resultado 
-        productLi.innerHTML = `<li class="soldLi"><span class="soldAmount">${sellAmount} </span><span class="soldProduct">Kit Kat vendidos: </span><span class="positive">$${finalSellPrice}</span> foram comprados por: <span class="soldInfo">${sellDetails}</span></li>`;
+        productLi.innerHTML = `<li class="soldLi"><span class="soldAmount">${sellAmount} </span><span class="soldProduct">${productDropdown} vendidos: </span><span class="positive">$${finalSellPrice}</span> foram comprados por: <span class="soldInfo">${sellDetails}</span></li>`;
         totalMoney += finalSellPrice;
+        updateProductAmount(productDropdown, sellAmount);
         updateTotalMoney();
     }
 
