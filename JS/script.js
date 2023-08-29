@@ -181,7 +181,7 @@ function sellProduct() {
         return;
     } else {
         // *Criar uma Li com o resultado 
-        productLi.innerHTML = `<li class="soldLi"><span class="soldAmount">${sellAmount} </span><span class="soldProduct">${productDropdown} vendidos: </span><span class="positive">$${finalSellPrice}</span> foram comprados por: <span class="soldInfo">${sellDetails}</span></li>`;
+        productLi.innerHTML = `<span class="soldAmount">${sellAmount} </span><span class="soldProduct">Kit Kat vendidos por: </span><span class="positive">R$${finalSellPrice}</span> para: <span class="soldInfo">${sellDetails}</span>`;
         totalMoney += finalSellPrice;
         updateProductAmount(productDropdown, sellAmount);
         updateTotalMoney();
