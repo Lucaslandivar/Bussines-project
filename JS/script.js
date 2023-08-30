@@ -203,7 +203,7 @@ sellBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
     sellProduct();
-})
+});
 
 // *Cancelar Venda
 cancelBtn.addEventListener("click", () => {
@@ -213,7 +213,28 @@ cancelBtn.addEventListener("click", () => {
 // !Refill Section
 
 // ?Seleção de elementos
+const refillContainer = document.getElementById("refillContainer");
+const refillProductInput = document.getElementById("refill-product");
+const refillAmountInput = document.getElementById("refill-amount");
+const refillPriceInput = document.getElementById("refill-price");
+const refillBtn = document.getElementById("refillBtn");
+const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 
 // ?Funções
 
 // ?Eventos
+
+refillBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    const refillProduct = refillProductInput.value;
+    const refillAmount = parseFloat(refillAmountInput.value);
+    const refillPrice = parseFloat(refillPriceInput.value);
+
+    console.log(refillPrice, refillProduct, refillAmount);
+});
+
+// *Cancelar compra de produto
+cancelRefillBtn.addEventListener("click", () => {
+    console.log("venda cancelada");
+});
