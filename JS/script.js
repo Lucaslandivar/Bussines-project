@@ -138,13 +138,22 @@ function goToSell(event) {
 // ?Eventos
 
 // *Evento de apagar produtos no botão de apagar
-deleteBtn.forEach(deleteButton => {
-    deleteButton.addEventListener("click", removeProduct);
+stockContainer.addEventListener("click", (event) => {
+    const deleteButton = event.target.closest(".bx-trash");
+    if (deleteButton) {
+        const productElement = deleteButton.closest(".products");
+        if (confirm("Tem certeza que quer remover este produto?")) {
+            productElement.remove();
+        }
+    }
 });
 
-// *Evento de trocar a clase do botão de vender
-sellProductBtn.forEach(sellProductBtn => {
-    sellProductBtn.addEventListener("click", goToSell);
+// *Evento de trocar a classe do botão de vender
+stockContainer.addEventListener("click", (event) => {
+    const sellButton = event.target.closest(".bx-money-withdraw");
+    if (sellButton) {
+        goToSell(event);
+    }
 });
 
 // !Sell container 
