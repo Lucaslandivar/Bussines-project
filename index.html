@@ -103,7 +103,13 @@
     <div id="refillContainer">
         <h2>Comprar mais produtos<i class='bx bx-basket'></i></i></h2>
         <label for="refill-product">Produto:</label>
-        <input type="text" id="refill-product" placeholder="Insira o nome do produto">
+        <select id="refill-product">
+            <option value="" disabled selected>Escolha um produto</option>
+            <option value="kitKat">Kit Kat</option>
+            <option value="guarana">Guaraná</option>
+            <option value="bisExtra">Bis Extra</option>
+            <option value="newProduct">Novo Produto</option>
+        </select>
         <label for="refill-amount">Quantidade:</label>
         <input type="number" id="refill-amount" placeholder="Quantidade">
         <label for="refill-price">Preço de compra:</label>

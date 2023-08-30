@@ -100,15 +100,17 @@ const initialProductAmounts = {
 // ?Funções
 
 // *Atualizar a quantidade do produto
-function updateProductAmount(productName, soldQuantity) {
+function updateProductAmount(productName, quantity, isRefill) {
     if (initialProductAmounts.hasOwnProperty(productName)) {
-        // *Ver se há suficientes produtos no stock para vender
-        if (soldQuantity > initialProductAmounts[productName]) {
+        // *Em caso de não houver produto suficiente
+        if (!isRefill && quantity > initialProductAmounts[productName]) {
             alert("Não há produto suficiente.");
             return;
         }
 
-        initialProductAmounts[productName] -= soldQuantity;
+        // *Ajustando a quantidade baseada no refill ou no sell
+        initialProductAmounts[productName] += isRefill ? quantity : -quantity;
+
         const productAmountElement = document.querySelector(`.productAmount[data-product="${productName}"]`);
         
         if (productAmountElement) {
@@ -116,6 +118,7 @@ function updateProductAmount(productName, soldQuantity) {
         }
     }
 }
+
 
 // *Remover produtos do stock
 function removeProduct(event) {
@@ -220,28 +223,45 @@ const refillPriceInput = document.getElementById("refill-price");
 const refillBtn = document.getElementById("refillBtn");
 const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 
-
 // ?Funções
 
 // *Adicionar produto ao stock
 function updateStock() {
-    const refillProduct = refillProductInput.value;
+    const refillProductDropdown = document.getElementById("refill-product");
     const refillAmount = parseFloat(refillAmountInput.value);
-    const refillPrice = parseFloat(refillPriceInput.value);
+    const refillProduct = refillProductDropdown.value;
 
-    if(refillProduct == productsElements) {
-        updateProductAmount(productDropdown, refillAmount);
+    if (refillProduct === "newProduct") {
+        const newProductName = prompt("Informe o nome do novo produto:");
+        if (newProductName) {
+            // *Adicionar novo produto ao stock
+            const newProduct = document.createElement("div");
+            newProduct.innerHTML = `
+            <h4>${newProductName}: <span class="productAmount" data-product="${newProductName}">${refillAmount}</span></h4>
+            <i class='bx bx-money-withdraw'></i>
+            <i class='bx bx-trash'></i>`;
+            newProduct.classList.add("products");
+            stockContainer.appendChild(newProduct);
+
+            // *Atualizar a quantidade inicial pelo quantidade refill
+            initialProductAmounts[newProductName] = refillAmount;
+
+            // *Limpar os inputs
+            refillAmountInput.value = '';
+            refillProductInput.value = '';
+            refillPriceInput.value = '';
+        }
     } else {
-        const newProduct = document.createElement("div");
-        newProduct.innerHTML = 
-        `<h4>${refillProduct}: <span class="productAmount" data-product="${refillProduct}">${refillAmount}</span></h4>
-        <i class='bx bx-money-withdraw'></i>
-        <i class='bx bx-trash'></i>`
-    
-        newProduct.classList.add("products")
-        stockContainer.appendChild(newProduct);
+        // *Atualizar a quantidade dos produtos
+        updateProductAmount(refillProduct, refillAmount, true);
+
+        // *Limpar os inputs
+        refillAmountInput.value = '';
+        refillPriceInput.value = '';
     }
 }
+
+
 
 // ?Eventos
 
