@@ -120,7 +120,7 @@ function updateProductAmount(productName, soldQuantity) {
 // *Remover produtos do stock
 function removeProduct(event) {
     const deleteButton = event.currentTarget; 
-    const productElement = deleteButton.parentElement;
+    const productElement = deleteButton.closest(".products");
     
     if (confirm(`Tem certeza que quer remover este produto?`)) {
         productElement.remove(); 
@@ -220,18 +220,35 @@ const refillPriceInput = document.getElementById("refill-price");
 const refillBtn = document.getElementById("refillBtn");
 const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 
+
 // ?Funções
+
+// *Adicionar produto ao stock
+function updateStock() {
+    const refillProduct = refillProductInput.value;
+    const refillAmount = parseFloat(refillAmountInput.value);
+    const refillPrice = parseFloat(refillPriceInput.value);
+
+    if(refillProduct == productsElements) {
+        updateProductAmount(productDropdown, refillAmount);
+    } else {
+        const newProduct = document.createElement("div");
+        newProduct.innerHTML = 
+        `<h4>${refillProduct}: <span class="productAmount" data-product="${refillProduct}">${refillAmount}</span></h4>
+        <i class='bx bx-money-withdraw'></i>
+        <i class='bx bx-trash'></i>`
+    
+        newProduct.classList.add("products")
+        stockContainer.appendChild(newProduct);
+    }
+}
 
 // ?Eventos
 
 refillBtn.addEventListener("click", (e) => {
     e.preventDefault();
 
-    const refillProduct = refillProductInput.value;
-    const refillAmount = parseFloat(refillAmountInput.value);
-    const refillPrice = parseFloat(refillPriceInput.value);
-
-    console.log(refillPrice, refillProduct, refillAmount);
+    updateStock();
 });
 
 // *Cancelar compra de produto
