@@ -238,12 +238,16 @@ const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 function updateStock() {
     const refillProductDropdown = document.getElementById("refill-product");
     const refillAmount = parseFloat(refillAmountInput.value);
+
+    // *Selecionar o produto no menu
     const refillProduct = refillProductDropdown.value;
 
     if (refillProduct === "newProduct") {
         const newProductName = prompt("Informe o nome do novo produto:");
         if (newProductName) {
-            // *Adicionar novo produto ao stock
+            updateProductAmount(newProductName, refillAmount, true);
+
+            // *Criar um novo produto
             const newProduct = document.createElement("div");
             newProduct.innerHTML = `
             <h4>${newProductName}: <span class="productAmount" data-product="${newProductName}">${refillAmount}</span></h4>
@@ -252,13 +256,11 @@ function updateStock() {
             newProduct.classList.add("products");
             stockContainer.appendChild(newProduct);
 
-            // *Atualizar a quantidade inicial pelo quantidade refill
-            initialProductAmounts[newProductName] = refillAmount;
-
-            // *Limpar os inputs
-            refillAmountInput.value = '';
-            refillProductInput.value = '';
-            refillPriceInput.value = '';
+            // *criar uma nova opção com o novo produto
+            const newProductOption = document.createElement("option");
+            newProductOption.value = newProductName;
+            newProductOption.textContent = newProductName;
+            productsInSale.appendChild(newProductOption);
         }
     } else {
         // *Atualizar a quantidade dos produtos
