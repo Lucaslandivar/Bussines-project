@@ -180,9 +180,10 @@ function sellProduct() {
     const sellDetails = sellDetailsInput.value;
     const soldList = document.getElementById("soldList")
     const productLi = document.createElement("li"); 
+
     // *Selecionar o produto individualmente
     const productDropdown = productsInSale.value;
-    const productPrice = productPrices[productDropdown];
+    const productPrice = productPrices[productDropdown]; // Retrieve the price from productPrices
 
     // *Multiplicar a quantidade vezes o preço do produto
     const finalSellPrice = sellAmount * productPrice;
@@ -193,7 +194,7 @@ function sellProduct() {
         return;
     } else {
         // *Criar uma Li com o resultado 
-        productLi.innerHTML = `<span class="soldAmount">${sellAmount} </span><span class="soldProduct">Kit Kat vendidos por: </span><span class="positive">R$${finalSellPrice}</span> para: <span class="soldInfo">${sellDetails}</span>`;
+        productLi.innerHTML = `<span class="soldAmount">${sellAmount} </span><span class="soldProduct">${productDropdown} vendidos por: </span><span class="positive">R$${finalSellPrice.toFixed(2)}</span> para: <span class="soldInfo">${sellDetails}</span>`;
         totalMoney += finalSellPrice;
         updateProductAmount(productDropdown, sellAmount);
         updateTotalMoney();
@@ -201,7 +202,6 @@ function sellProduct() {
 
     productLi.classList.add("soldLi");
     soldList.appendChild(productLi);
-
 
     // *Limpar os valores dos inputs
     sellAmountInput.value = "";
@@ -256,11 +256,15 @@ function updateStock() {
             newProduct.classList.add("products");
             stockContainer.appendChild(newProduct);
 
-            // *criar uma nova opção com o novo produto
+            // *Adicionar nova opção de venda com o novo produto
             const newProductOption = document.createElement("option");
             newProductOption.value = newProductName;
             newProductOption.textContent = newProductName;
             productsInSale.appendChild(newProductOption);
+
+            // *Adicionar o novo produto ao productPrice 
+            const newProductPrice = parseFloat(prompt(`Informe o preço do novo produto ${newProductName}:`));
+            productPrices[newProductName] = newProductPrice;
         }
     } else {
         // *Atualizar a quantidade dos produtos
