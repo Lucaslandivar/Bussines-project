@@ -164,6 +164,7 @@ const sellBtn = document.getElementById("sellBtn");
 const sellAmountInput = document.getElementById("product-sell-amount");
 const productsInSale = document.getElementById("product-in-sell");
 const sellDetailsInput = document.getElementById("sell-details");
+const soldList = document.getElementById("soldList")
 
 const productPrices = {
     kitKat: 3.50,
@@ -178,12 +179,11 @@ function sellProduct() {
 
     const sellAmount = parseFloat(sellAmountInput.value);
     const sellDetails = sellDetailsInput.value;
-    const soldList = document.getElementById("soldList")
     const productLi = document.createElement("li"); 
 
     // *Selecionar o produto individualmente
     const productDropdown = productsInSale.value;
-    const productPrice = productPrices[productDropdown]; // Retrieve the price from productPrices
+    const productPrice = productPrices[productDropdown]; 
 
     // *Multiplicar a quantidade vezes o preço do produto
     const finalSellPrice = sellAmount * productPrice;
@@ -238,15 +238,17 @@ const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 function updateStock() {
     const refillProductDropdown = document.getElementById("refill-product");
     const refillAmount = parseFloat(refillAmountInput.value);
-
+    const refillPrice = parseFloat(refillPriceInput.value);
+    const refillLi = createElement("li");
+    
     // *Selecionar o produto no menu
     const refillProduct = refillProductDropdown.value;
-
+    
     if (refillProduct === "newProduct") {
         const newProductName = prompt("Informe o nome do novo produto:");
         if (newProductName) {
             updateProductAmount(newProductName, refillAmount, true);
-
+            
             // *Criar um novo produto
             const newProduct = document.createElement("div");
             newProduct.innerHTML = `
@@ -255,16 +257,25 @@ function updateStock() {
             <i class='bx bx-trash'></i>`;
             newProduct.classList.add("products");
             stockContainer.appendChild(newProduct);
-
-            // *Adicionar nova opção de venda com o novo produto
+            
+            // *Adicionar nova opção de venda e refill com o novo produto
             const newProductOption = document.createElement("option");
             newProductOption.value = newProductName;
             newProductOption.textContent = newProductName;
             productsInSale.appendChild(newProductOption);
-
+            refillProductDropdown.appendChild(newProductOption);
+            
             // *Adicionar o novo produto ao productPrice 
             const newProductPrice = parseFloat(prompt(`Informe o preço do novo produto ${newProductName}:`));
             productPrices[newProductName] = newProductPrice;
+            
+            // *Descontar o preço do produto comprado
+            refillLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${refillProduct} comprados por: </span><span class="negative">R$${refillPrice.toFixed(2)}</span> para: <span class="soldInfo">${sellDetails}</span>`;
+            totalMoney - refillPrice;
+            updateTotalMoney();
+
+            refillLi.classList.add("soldLi");
+            soldList.appendChild(refillLi);
         }
     } else {
         // *Atualizar a quantidade dos produtos
