@@ -26,13 +26,8 @@
     margin-bottom: 5px;
 }
 
-#product-in-sell {
-    border-radius: 5px;
-    background-color: azure;
-    text-decoration: none;
-    text-align: center;
-    width: 80px;
-    height: 25px;
+.product-in-sell {
+    color: brown;
 }
 
 #sell input {

@@ -1,16 +1,1 @@
 /* !Sold Section */
-#soldContainer {
-    margin-top: 15px;
-    margin-bottom: 10px;
-    margin-left: 20px;
-    border-top: 1px solid #000;
-    background-color: #FAF1E4;
-}
-
-.soldAmount {
-    color: green;
-}
-
-.soldInfo {
-    color: brown;
-}

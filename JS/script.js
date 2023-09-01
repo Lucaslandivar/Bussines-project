@@ -238,8 +238,6 @@ const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 function updateStock() {
     const refillProductDropdown = document.getElementById("refill-product");
     const refillAmount = parseFloat(refillAmountInput.value);
-    const refillPrice = parseFloat(refillPriceInput.value);
-    const refillLi = createElement("li");
     
     // *Selecionar o produto no menu
     const refillProduct = refillProductDropdown.value;
@@ -268,14 +266,6 @@ function updateStock() {
             // *Adicionar o novo produto ao productPrice 
             const newProductPrice = parseFloat(prompt(`Informe o preço do novo produto ${newProductName}:`));
             productPrices[newProductName] = newProductPrice;
-            
-            // *Descontar o preço do produto comprado
-            refillLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${refillProduct} comprados por: </span><span class="negative">R$${refillPrice.toFixed(2)}</span> para: <span class="soldInfo">${sellDetails}</span>`;
-            totalMoney - refillPrice;
-            updateTotalMoney();
-
-            refillLi.classList.add("soldLi");
-            soldList.appendChild(refillLi);
         }
     } else {
         // *Atualizar a quantidade dos produtos
@@ -287,8 +277,6 @@ function updateStock() {
     }
 }
 
-
-
 // ?Eventos
 
 refillBtn.addEventListener("click", (e) => {
@@ -299,5 +287,5 @@ refillBtn.addEventListener("click", (e) => {
 
 // *Cancelar compra de produto
 cancelRefillBtn.addEventListener("click", () => {
-    console.log("venda cancelada");
+    console.log("Compra cancelada");
 });
