@@ -23,6 +23,7 @@ I have divided this project into five parts:
 <p>HTML</p>
 <p>CSS</p>
 <p>JavaScript</p>
+<p>Tailwind</p>
 
 <h2>Status</h2>
 <p>5/5 finish.</p>
