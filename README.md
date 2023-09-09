@@ -1,5 +1,5 @@
 <h1>Bussines Project</h1>
-  <img src="img/Captura de Tela (120).png">
+  <img src="img/Captura de Tela (124).png">
 
 <h2>Project Deploy</h2>
  <a href="https://bussines-project-b27l00gvr-lucaslandivar.vercel.app" target="_blank">Click here</a>
