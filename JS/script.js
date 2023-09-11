@@ -238,6 +238,8 @@ const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 function updateStock() {
     const refillProductDropdown = document.getElementById("refill-product");
     const refillAmount = parseFloat(refillAmountInput.value);
+    const refillPrice = parseFloat(refillPriceInput.value);
+    const refillProductLi = document.createElement("li");
     
     // *Selecionar o produto no menu
     const refillProduct = refillProductDropdown.value;
@@ -270,19 +272,29 @@ function updateStock() {
     } else {
         // *Atualizar a quantidade dos produtos
         updateProductAmount(refillProduct, refillAmount, true);
+        // *Criar uma Li com o resultado 
+        refillProductLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${refillProduct} comprados por: </span><span class="negative">-R$${refillPrice.toFixed(2)}</span></span>`;
+        totalMoney -= refillPrice;
+        updateTotalMoney();
 
         // *Limpar os inputs
         refillAmountInput.value = '';
         refillPriceInput.value = '';
     }
+
+    refillProductLi.classList.add("soldLi");
+    soldList.appendChild(refillProductLi);
 }
 
 // ?Eventos
 
 refillBtn.addEventListener("click", (e) => {
     e.preventDefault();
-
-    updateStock();
+    if(isNaN){
+        alert("Nenhum produto selecionado!")
+    } else {
+        updateStock();
+    }
 });
 
 // *Cancelar compra de produto
