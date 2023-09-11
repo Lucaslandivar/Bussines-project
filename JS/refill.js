@@ -15,16 +15,25 @@ function updateStock() {
     const refillProductDropdown = document.getElementById("refill-product");
     const refillAmount = parseFloat(refillAmountInput.value);
     const refillPrice = parseFloat(refillPriceInput.value);
-    const refillProductLi = document.createElement("li");
-    
+
     // *Selecionar o produto no menu
     const refillProduct = refillProductDropdown.value;
-    
+
     if (refillProduct === "newProduct") {
         const newProductName = prompt("Informe o nome do novo produto:");
         if (newProductName) {
+            // *Atualizar a quantidade dos produtos
             updateProductAmount(newProductName, refillAmount, true);
-            
+
+            // *Criar uma Li com o resultado
+            const refillProductLi = document.createElement("li");
+            refillProductLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${newProductName} comprados por: </span><span class="negative">-R$${refillPrice.toFixed(2)}</span></span>`;
+            totalMoney -= refillPrice;
+            updateTotalMoney();
+
+            refillProductLi.classList.add("soldLi");
+            soldList.appendChild(refillProductLi);
+
             // *Criar um novo produto
             const newProduct = document.createElement("div");
             newProduct.innerHTML = `
@@ -33,36 +42,37 @@ function updateStock() {
             <i class='bx bx-trash'></i>`;
             newProduct.classList.add("products");
             stockContainer.appendChild(newProduct);
-            
+
             // *Adicionar nova opção de venda e refill com o novo produto
             const newProductOption = document.createElement("option");
             newProductOption.value = newProductName;
             newProductOption.textContent = newProductName;
             productsInSale.appendChild(newProductOption);
             refillProductDropdown.appendChild(newProductOption);
-            
-            // *Adicionar o novo produto ao productPrice 
+
+            // *Adicionar o novo produto ao productPrices
             const newProductPrice = parseFloat(prompt(`Informe o preço do novo produto ${newProductName}:`));
             productPrices[newProductName] = newProductPrice;
         }
     } else {
         // *Atualizar a quantidade dos produtos
         updateProductAmount(refillProduct, refillAmount, true);
-        // *Criar uma Li com o resultado 
-        if (refillPrice >= 0) {
-            refillProductLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${refillProduct} comprados por: </span><span class="negative">-R$${refillPrice.toFixed(2)}</span></span>`;
-            totalMoney -= refillPrice; 
-            updateTotalMoney(); 
-        }
 
-        // *Limpar os inputs
-        refillAmountInput.value = '';
-        refillPriceInput.value = '';
+        // *Criar uma Li com o resultado
+        const refillProductLi = document.createElement("li");
+        refillProductLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${refillProduct} comprados por: </span><span class="negative">-R$${refillPrice.toFixed(2)}</span></span>`;
+        totalMoney -= refillPrice;
+        updateTotalMoney();
+
+        refillProductLi.classList.add("soldLi");
+        soldList.appendChild(refillProductLi);
     }
 
-    refillProductLi.classList.add("soldLi");
-    soldList.appendChild(refillProductLi);
+    // *Limpar os inputs
+    refillAmountInput.value = '';
+    refillPriceInput.value = '';
 }
+
 
 // ?Eventos
 
