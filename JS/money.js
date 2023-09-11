@@ -1,136 +1,82 @@
+// !Money Section
+
+// ?Seleção de Elementos
+const moneyAmountInput = document.getElementById("money-amount");
+const moneySourceInput = document.getElementById("money-source");
+const transactionList = document.getElementById("transactionsList");
+const moneyBtn = document.getElementById("moneyBtn");
+
 let totalMoney = 20;
 
-// Update the total money display and set color to green if money is >= 0
+// ?Funções
+
+// *Função de atualizar o dinheiro total na conta
 function updateTotalMoney() {
-  const totalMoneyElement = document.getElementById("total-money");
-  totalMoneyElement.textContent = totalMoney.toFixed(2);
-  totalMoneyElement.style.color = totalMoney >= 0 ? "green" : "red";
+    const totalMoneyAmount = document.getElementById("totalMoney");
+    totalMoneyAmount.textContent = totalMoney >= 0 ? `$${totalMoney.toFixed(2)}` : `-$${Math.abs(totalMoney.toFixed(2))}`;
+    totalMoneyAmount.style.color = totalMoney >= 0 ? "green" : "red";
 }
 
-// Add money
-function addMoney() {
-  const amount = parseFloat(document.getElementById("money-amount").value);
-  const source = document.getElementById("money-source").value;
+// *Função de adicionar transação
+function addTransaction() {
 
-  if (!isNaN(amount) && parseFloat(amount) !== 0 && source.trim() !== "") {
-    totalMoney += amount;
-    updateTotalMoney();
-    addMoneyTransaction(amount, source);
-    clearMoneyInputs();
+    const moneyAmount = parseFloat(moneyAmountInput.value);
+    const moneySource = moneySourceInput.value;
 
-    // Store the updated total money and transactions in Local Storage
-    localStorage.setItem("totalMoney", JSON.stringify(totalMoney));
-    updateTransactionsInLocalStorage();
-  } else {
-    alert("Invalid amount or source!");
-  }
-}
+        // *Se os valores estiverem vazios
+        if (isNaN(moneyAmount) || moneyAmountInput.value === '' || moneySourceInput.value === '') {
+            alert("Valores incorretos!");
+            return;
+        } 
 
-// Clear money input fields
-function clearMoneyInputs() {
-  document.getElementById("money-amount").value = "";
-  document.getElementById("money-source").value = "";
-}
+    const moneyLi = document.createElement("li");
 
-// Add money transaction to the transactions section
-function addMoneyTransaction(amount, source) {
-  const transactionsSection = document.getElementById("transactions");
-  const transactionElement = document.createElement("div");
-  transactionElement.innerHTML = `Received $${amount.toFixed(2)} from: ${source}`;
-  transactionElement.style.color = amount >= 0 ? "green" : "red"; // Set color to green for positive income and red for negative income
+    // *Criar um novo elemento na parte das transações
+    if (moneyAmount >= 0) {
+        moneyLi.innerHTML = `<span class="positiveMoneyTransaction">$${moneyAmount}</span> foram adicionados de: <span class="transactionInfo">${moneySource}</span>`;
+        totalMoney += moneyAmount;
+        updateTotalMoney();
+    } else {
+        moneyLi.innerHTML = `<span class="negativeMoneyTransaction">-$${Math.abs(moneyAmount)}</span> foram descontados por: <span class="transactionInfo">${moneySource}</span>`;
+        totalMoney += moneyAmount;
+        updateTotalMoney();
+    }
 
-  const deleteButton = document.createElement("button");
-  deleteButton.textContent = "Delete";
-  deleteButton.onclick = () => {
-    deleteTransaction(transactionElement, amount);
-  };
+    // *criando e adicionando o novo Li
+    moneyLi.classList.add("moneyLi");
+    transactionList.appendChild(moneyLi);
 
-  transactionElement.appendChild(deleteButton);
-  transactionsSection.appendChild(transactionElement);
-}
+    // *Limpar os inputs e focar no moneyAmountInput depois de limpado
+    moneyAmountInput.value = ''; 
+    moneySourceInput.value = '';
 
-// Function to delete a transaction
-function deleteTransaction(transactionElement, amount) {
-  const confirmationMessage = `Are you sure you want to delete the transaction with amount $${amount.toFixed(2)}?`;
-  const userConfirmed = confirm(confirmationMessage);
+    moneyAmountInput.focus();
+};
 
-  if (userConfirmed) {
-    totalMoney -= amount;
-    updateTotalMoney();
+// ?Eventos
 
-    const transactionsSection = document.getElementById("transactions");
-    transactionsSection.removeChild(transactionElement);
+// *Quando o botão é clicado:
+moneyBtn.addEventListener("click", (e) => {
+    e.preventDefault();
 
-    // Store the updated total money and transactions in Local Storage
-    localStorage.setItem("totalMoney", JSON.stringify(totalMoney));
-    updateTransactionsInLocalStorage();
-  }
-}
-
-// Update the transactions data in Local Storage
-function updateTransactionsInLocalStorage() {
-  const transactionsSection = document.getElementById("transactions");
-  const transactions = Array.from(transactionsSection.children).map(transaction => {
-    return {
-      content: transaction.innerHTML,
-      color: transaction.style.color
-    };
-  });
-  localStorage.setItem("transactions", JSON.stringify(transactions));
-}
-
-// When the page loads, retrieve data from Local Storage if available
-document.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("stock")) {
-    stock = JSON.parse(localStorage.getItem("stock"));
-    updateStock();
-  }
-
-  if (localStorage.getItem("soldProducts")) {
-    soldProducts = JSON.parse(localStorage.getItem("soldProducts"));
-    updateSoldProducts();
-  }
-
-  if (localStorage.getItem("refillProducts")) {
-    refillProducts = JSON.parse(localStorage.getItem("refillProducts"));
-    updateRefillProducts();
-  }
-
-  if (localStorage.getItem("totalMoney")) {
-    totalMoney = parseFloat(localStorage.getItem("totalMoney"));
-    updateTotalMoney();
-  }
-
-  // Retrieve transactions from Local Storage
-  if (localStorage.getItem("transactions")) {
-    const transactions = JSON.parse(localStorage.getItem("transactions"));
-    const transactionsSection = document.getElementById("transactions");
-    transactions.forEach(transaction => {
-      const transactionElement = document.createElement("div");
-      transactionElement.innerHTML = transaction.content;
-      transactionElement.style.color = transaction.color;
-      transactionsSection.appendChild(transactionElement);
-
-      // Add the delete button to each transaction
-      const deleteButton = document.createElement("button");
-      deleteButton.textContent = "Delete";
-      deleteButton.onclick = () => {
-        deleteTransaction(transactionElement, getAmountFromTransaction(transaction.content));
-      };
-      transactionElement.appendChild(deleteButton);
-    });
-  }
+    addTransaction();
 });
 
-// Function to extract the amount from a transaction content
-function getAmountFromTransaction(content) {
-  const amountRegex = /Received \$([\d.]+) from:/; // Regex to match the amount in the transaction content
-  const match = content.match(amountRegex);
-  return match ? parseFloat(match[1]) : 0;
-}
+// *Quando a tecla enter é precionda:
+moneyAmountInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
 
-// Initialize the page with the current stock and sold products
-updateStock();
-updateSellProductOptions();
-updateSoldProducts();
-updateTotalMoney();
+        e.preventDefault();
+
+        addTransaction();
+    }
+});
+
+moneySourceInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter") {
+        
+        e.preventDefault();
+
+        addTransaction();
+    }
+});

@@ -1,99 +1,82 @@
-// refill-container
-let refillProducts = {};
+// !Refill Section
 
-function refillProduct() {
-  const product = document.getElementById("refill-product").value.toLowerCase();
-  const quantity = parseInt(document.getElementById("refill-quantity").value);
-  const price = parseFloat(document.getElementById("refill-price").value);
+// ?Seleção de elementos
+const refillContainer = document.getElementById("refillContainer");
+const refillProductInput = document.getElementById("refill-product");
+const refillAmountInput = document.getElementById("refill-amount");
+const refillPriceInput = document.getElementById("refill-price");
+const refillBtn = document.getElementById("refillBtn");
+const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 
-  if (quantity > 0 && price > 0) {
-    if (stock[product]) {
-      stock[product] += quantity;
+// ?Funções
+
+// *Adicionar produto ao stock
+function updateStock() {
+    const refillProductDropdown = document.getElementById("refill-product");
+    const refillAmount = parseFloat(refillAmountInput.value);
+    const refillPrice = parseFloat(refillPriceInput.value);
+    const refillProductLi = document.createElement("li");
+    
+    // *Selecionar o produto no menu
+    const refillProduct = refillProductDropdown.value;
+    
+    if (refillProduct === "newProduct") {
+        const newProductName = prompt("Informe o nome do novo produto:");
+        if (newProductName) {
+            updateProductAmount(newProductName, refillAmount, true);
+            
+            // *Criar um novo produto
+            const newProduct = document.createElement("div");
+            newProduct.innerHTML = `
+            <h4>${newProductName}: <span class="productAmount" data-product="${newProductName}">${refillAmount}</span></h4>
+            <i class='bx bx-money-withdraw'></i>
+            <i class='bx bx-trash'></i>`;
+            newProduct.classList.add("products");
+            stockContainer.appendChild(newProduct);
+            
+            // *Adicionar nova opção de venda e refill com o novo produto
+            const newProductOption = document.createElement("option");
+            newProductOption.value = newProductName;
+            newProductOption.textContent = newProductName;
+            productsInSale.appendChild(newProductOption);
+            refillProductDropdown.appendChild(newProductOption);
+            
+            // *Adicionar o novo produto ao productPrice 
+            const newProductPrice = parseFloat(prompt(`Informe o preço do novo produto ${newProductName}:`));
+            productPrices[newProductName] = newProductPrice;
+        }
     } else {
-      stock[product] = quantity;
-      addProductToStock(product, quantity);
-      addProductToSellContainer(product);
+        // *Atualizar a quantidade dos produtos
+        updateProductAmount(refillProduct, refillAmount, true);
+        // *Criar uma Li com o resultado 
+        if (refillPrice >= 0) {
+            refillProductLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${refillProduct} comprados por: </span><span class="negative">-R$${refillPrice.toFixed(2)}</span></span>`;
+            totalMoney -= refillPrice; 
+            updateTotalMoney(); 
+        }
+
+        // *Limpar os inputs
+        refillAmountInput.value = '';
+        refillPriceInput.value = '';
     }
 
-    const totalCost = price * quantity;
-    totalMoney -= totalCost;
+    refillProductLi.classList.add("soldLi");
+    soldList.appendChild(refillProductLi);
+}
 
-    if (refillProducts[product]) {
-      refillProducts[product].quantity += quantity;
-      refillProducts[product].totalCost += totalCost;
-      refillProducts[product].pricePerItem = refillProducts[product].totalCost / refillProducts[product].quantity;
+// ?Eventos
+
+// *Comprar ou aumentar produto
+refillBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    if (isNaN(refillAmountInput.value)) {
+        alert("Nenhum produto selecionado ou quantidade inválida!");
     } else {
-      refillProducts[product] = { quantity, totalCost, pricePerItem: price };
-    }
+        updateStock();
+    }    
+});
 
-    updateStock();
-    updateRefillProducts(); // Update refill products with red color
-    updateTotalMoney();
-    updateSellProductOptions();
-
-    // Store all the data in Local Storage
-    localStorage.setItem("stock", JSON.stringify(stock));
-    localStorage.setItem("refillProducts", JSON.stringify(refillProducts));
-    localStorage.setItem("totalMoney", JSON.stringify(totalMoney));
-
-    document.getElementById("refill-product").value = "";
-    document.getElementById("refill-quantity").value = "1";
-    document.getElementById("refill-price").value = "";
-  } else {
-    alert("Invalid quantity or price!");
-  }
-}
-
-function addProductToStock(product, quantity) {
-  const stockList = document.getElementById("stock-list");
-  const listItem = document.createElement("li");
-  listItem.innerHTML = `
-    <span contenteditable="true" class="product-name" data-product="${product}">${capitalizeFirstLetter(product)}</span>: 
-    <span class="product-quantity" id="stock-${product}">${quantity}</span>
-    <button onclick="deleteProduct('${product}')">Remove</button>
-  `;
-  stockList.appendChild(listItem);
-}
-
-function addProductToSellContainer(product) {
-  const sellProductSelect = document.getElementById("sell-product");
-  const productOption = document.createElement("option");
-  productOption.value = product;
-  productOption.textContent = capitalizeFirstLetter(product);
-  sellProductSelect.appendChild(productOption);
-}
-
-// Update the refill-products display with red color for refills
-function updateRefillProducts() {
-    const refillProductMessage = document.getElementById("refill-product-message");
-    refillProductMessage.innerHTML = "<h2>Refilled Products</h2>";
-    for (const product in refillProducts) {
-      const { quantity, totalCost, pricePerItem } = refillProducts[product];
-      const productElement = document.createElement("p");
-      productElement.textContent = `${product}: ${quantity} refilled for $${totalCost.toFixed(2)} ($${pricePerItem.toFixed(2)} each)`;
-      productElement.style.color = "red"; // Set color to red for refilled products
-      refillProductMessage.appendChild(productElement);
-    }
-  }
-
-    // Define the updateSellProductOptions function
-  // In updateSellProductOptions() function
-function updateSellProductOptions() {
-    const sellProductSelect = document.getElementById("sell-product");
-    sellProductSelect.innerHTML = "";
-  
-    for (const product in stock) {
-      const productOption = document.createElement("option");
-      productOption.value = product;
-      productOption.textContent = capitalizeFirstLetter(product);
-      sellProductSelect.appendChild(productOption);
-    }
-  
-    // Add newly refilled product to sell-product options
-    for (const product in refillProducts) {
-      const productOption = document.createElement("option");
-      productOption.value = product;
-      productOption.textContent = capitalizeFirstLetter(product);
-      sellProductSelect.appendChild(productOption);
-    }
-  }
+// *Cancelar compra de produto
+cancelRefillBtn.addEventListener("click", () => {
+    console.log("Compra cancelada");
+});

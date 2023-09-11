@@ -1,81 +1,74 @@
-let stock = {
-  cookie: 5,
-  candy: 10,
-  chocolate: 4,
+// !Stock Container
+
+// ?Seleção de Elementos
+const productsElements = document.querySelector(".products");
+const stockContainer = document.getElementById("stockContainer");
+const deleteBtn = document.querySelectorAll(".bx-trash");
+const sellProductBtn = document.querySelectorAll(".bx-money-withdraw");
+const sellContainer = document.getElementsByClassName("sellContainer")[0];
+
+// *Quantidades iniciais dos produtos
+const initialProductAmounts = {
+    kitKat: 10,
+    guarana: 5,
+    bisExtra: 3,
 };
 
-// Get the correct product name from the stock
-function getProductFromStock(product) {
-  for (const stockProduct in stock) {
-    if (stockProduct.toLowerCase() === product.toLowerCase()) {
-      return stockProduct;
+// ?Funções
+
+// *Atualizar a quantidade do produto
+function updateProductAmount(productName, quantity, isRefill) {
+    if (initialProductAmounts.hasOwnProperty(productName)) {
+        // *Em caso de não houver produto suficiente
+        if (!isRefill && quantity > initialProductAmounts[productName]) {
+            alert("Não há produto suficiente.");
+            return;
+        }
+
+        // *Ajustando a quantidade baseada no refill ou no sell
+        initialProductAmounts[productName] += isRefill ? quantity : -quantity;
+
+        const productAmountElement = document.querySelector(`.productAmount[data-product="${productName}"]`);
+        
+        if (productAmountElement) {
+            productAmountElement.textContent = initialProductAmounts[productName];
+        }
     }
-  }
-  return product.toLowerCase();
 }
 
-// Delete a product from the stock
-function deleteProduct(product) {
-  if (confirm(`Are you sure you want to delete "${capitalizeFirstLetter(product)}"?`)) {
-    delete stock[product];
-    updateStock();
-    updateSellProductOptions(); // Update options in the sell-product dropdown
-    updateRefillProducts();
 
-    // Store the updated data in Local Storage
-    localStorage.setItem("stock", JSON.stringify(stock));
-    localStorage.setItem("soldProducts", JSON.stringify(soldProducts));
-    localStorage.setItem("refillProducts", JSON.stringify(refillProducts));
-    localStorage.setItem("totalMoney", JSON.stringify(totalMoney));
-  }
+// *Remover produtos do stock
+function removeProduct(event) {
+    const deleteButton = event.currentTarget; 
+    const productElement = deleteButton.closest(".products");
+    
+    if (confirm(`Tem certeza que quer remover este produto?`)) {
+        productElement.remove(); 
+    }
 }
 
-// Capitalize the first letter of a string
-function capitalizeFirstLetter(string) {
-  return string.charAt(0).toUpperCase() + string.slice(1);
+// *Trocar a clase da sell section
+function goToSell(event) {
+    sellContainer.classList.toggle("hide");
 }
 
-// Update the stock list display
-function updateStock() {
-  const stockList = document.getElementById("stock-list");
-  stockList.innerHTML = "";
+// ?Eventos
 
-  for (const product in stock) {
-    const listItem = document.createElement("li");
-    listItem.innerHTML = `
-      <span contenteditable="true" class="product-name" data-product="${product}">${capitalizeFirstLetter(product)}</span>: 
-      <span class="product-quantity" id="stock-${product}">${stock[product]}</span>
-      <button onclick="deleteProduct('${product}')">Remove</button>
-    `;
-    stockList.appendChild(listItem);
-  }
-}
-
-// When the page loads, retrieve data from Local Storage if available
-document.addEventListener("DOMContentLoaded", () => {
-  if (localStorage.getItem("stock")) {
-    stock = JSON.parse(localStorage.getItem("stock"));
-    updateStock();
-  }
-
-  if (localStorage.getItem("soldProducts")) {
-    soldProducts = JSON.parse(localStorage.getItem("soldProducts"));
-    updateSoldProducts();
-  }
-
-  if (localStorage.getItem("refillProducts")) {
-    refillProducts = JSON.parse(localStorage.getItem("refillProducts"));
-    updateRefillProducts();
-  }
-
-  if (localStorage.getItem("totalMoney")) {
-    totalMoney = parseFloat(localStorage.getItem("totalMoney"));
-    updateTotalMoney();
-  }
+// *Evento de apagar produtos no botão de apagar
+stockContainer.addEventListener("click", (event) => {
+    const deleteButton = event.target.closest(".bx-trash");
+    if (deleteButton) {
+        const productElement = deleteButton.closest(".products");
+        if (confirm("Tem certeza que quer remover este produto?")) {
+            productElement.remove();
+        }
+    }
 });
 
-// Initialize the page with the current stock and sold products
-updateStock();
-updateSellProductOptions();
-updateSoldProducts();
-updateTotalMoney();
+// *Evento de trocar a classe do botão de vender
+stockContainer.addEventListener("click", (event) => {
+    const sellButton = event.target.closest(".bx-money-withdraw");
+    if (sellButton) {
+        goToSell(event);
+    }
+});

@@ -1,39 +1,65 @@
-// sell-container
+// !Sell container 
+
+// ?Seleção de elementos
+const cancelBtn = document.getElementById("cancelBtn");
+const sellBtn = document.getElementById("sellBtn");
+const sellAmountInput = document.getElementById("product-sell-amount");
+const productsInSale = document.getElementById("product-in-sell");
+const sellDetailsInput = document.getElementById("sell-details");
+const soldList = document.getElementById("soldList")
+
+const productPrices = {
+    kitKat: 3.50,
+    guarana: 2.50,
+    bisExtra: 3.50,
+};
+
+// ?Funções
+
+// *Sell product
 function sellProduct() {
-  const product = document.getElementById("sell-product").value;
-  const quantity = parseInt(document.getElementById("sell-quantity").value);
-  const price = parseFloat(document.getElementById("sell-price").value);
 
-  if (quantity > 0 && price > 0) {
-    const productName = getProductFromStock(product);
-    const availableQuantity = stock[productName];
+    const sellAmount = parseFloat(sellAmountInput.value);
+    const sellDetails = sellDetailsInput.value;
+    const productLi = document.createElement("li"); 
 
-    if (availableQuantity >= quantity) {
-      const totalSaleAmount = price * quantity;
+    // *Selecionar o produto individualmente
+    const productDropdown = productsInSale.value;
+    const productPrice = productPrices[productDropdown]; 
 
-      stock[productName] -= quantity;
-      totalMoney += totalSaleAmount;
+    // *Multiplicar a quantidade vezes o preço do produto
+    const finalSellPrice = sellAmount * productPrice;
 
-      if (soldProducts[productName]) {
-        soldProducts[productName].quantity += quantity;
-        soldProducts[productName].totalRevenue += totalSaleAmount;
-      } else {
-        soldProducts[productName] = { quantity, totalRevenue: totalSaleAmount };
-      }
-
-      updateStock();
-      updateSoldProducts();
-      updateTotalMoney();
-      updateRefillProducts();
-
-      // Store the updated data in Local Storage
-      localStorage.setItem("stock", JSON.stringify(stock));
-      localStorage.setItem("soldProducts", JSON.stringify(soldProducts));
-      localStorage.setItem("totalMoney", JSON.stringify(totalMoney));
+    // *Se os valores estiverem vazios
+    if (isNaN(sellAmount) || sellDetailsInput.value === '') {
+        alert("Valores incorretos!");
+        return;
     } else {
-      alert(`Not enough quantity in stock! Available quantity: ${availableQuantity}`);
+        // *Criar uma Li com o resultado 
+        productLi.innerHTML = `<span class="soldAmount">${sellAmount} </span><span class="soldProduct">${productDropdown} vendidos por: </span><span class="positive">R$${finalSellPrice.toFixed(2)}</span> para: <span class="soldInfo">${sellDetails}</span>`;
+        totalMoney += finalSellPrice;
+        updateProductAmount(productDropdown, sellAmount);
+        updateTotalMoney();
     }
-  } else {
-    alert("Invalid quantity or price!");
-  }
+
+    productLi.classList.add("soldLi");
+    soldList.appendChild(productLi);
+
+    // *Limpar os valores dos inputs
+    sellAmountInput.value = "";
+    sellDetailsInput.value = "";
 }
+
+// ?Eventos
+
+// *vender Btn
+sellBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+
+    sellProduct();
+});
+
+// *Cancelar Venda
+cancelBtn.addEventListener("click", () => {
+    sellContainer.classList.toggle("hide");
+});

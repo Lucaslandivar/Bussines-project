@@ -273,9 +273,11 @@ function updateStock() {
         // *Atualizar a quantidade dos produtos
         updateProductAmount(refillProduct, refillAmount, true);
         // *Criar uma Li com o resultado 
-        refillProductLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${refillProduct} comprados por: </span><span class="negative">-R$${refillPrice.toFixed(2)}</span></span>`;
-        totalMoney -= refillPrice;
-        updateTotalMoney();
+        if (refillPrice >= 0) {
+            refillProductLi.innerHTML = `<span class="soldAmount">${refillAmount} </span><span class="soldProduct">${refillProduct} comprados por: </span><span class="negative">-R$${refillPrice.toFixed(2)}</span></span>`;
+            totalMoney -= refillPrice; 
+            updateTotalMoney(); 
+        }
 
         // *Limpar os inputs
         refillAmountInput.value = '';
@@ -288,13 +290,14 @@ function updateStock() {
 
 // ?Eventos
 
+// *Comprar ou aumentar produto
 refillBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    if(isNaN){
-        alert("Nenhum produto selecionado!")
+    if (isNaN(refillAmountInput.value)) {
+        alert("Nenhum produto selecionado ou quantidade inválida!");
     } else {
         updateStock();
-    }
+    }    
 });
 
 // *Cancelar compra de produto
