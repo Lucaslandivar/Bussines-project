@@ -2,7 +2,7 @@
   <img src="img/Captura de Tela (124).png">
 
 <h2>Project Deploy</h2>
- <a href="https://bussines-project-b27l00gvr-lucaslandivar.vercel.app" target="_blank">Click here</a>
+ <a href="https://bussines-project-3wxfywh7e-lucaslandivar.vercel.app" target="_blank">Click here</a>
   
 <h2>Description of the project</h2>
 <p>My Mymeds project had a purpose, which was to help my mother account for the purchase of medicines to give to my grandfather, I could not do a project as I had planned because of lack of knowledge, so I helped my mother by making a spreadsheet in Excel for now. And today I decided to return the project, this time sales-oriented, because my girlfriend sells chocolates and sweets to collect money and she has the same problem, not having a record to facilitate sales.
