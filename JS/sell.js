@@ -4,9 +4,9 @@
 const cancelBtn = document.getElementById("cancelBtn");
 const sellBtn = document.getElementById("sellBtn");
 const sellAmountInput = document.getElementById("product-sell-amount");
-const productsInSale = document.getElementById("product-in-sell");
 const sellDetailsInput = document.getElementById("sell-details");
-const soldList = document.getElementById("soldList")
+const soldList = document.getElementById("soldList");
+const productsInSale = document.getElementById("product-in-sell");
 
 const productPrices = {
     kitKat: 3.50,
@@ -18,10 +18,9 @@ const productPrices = {
 
 // *Sell product
 function sellProduct() {
-
     const sellAmount = parseFloat(sellAmountInput.value);
     const sellDetails = sellDetailsInput.value;
-    const productLi = document.createElement("li"); 
+    const productLi = document.createElement("li");
 
     // *Selecionar o produto individualmente
     const productDropdown = productsInSale.value;

@@ -43,12 +43,12 @@ function updateStock() {
             newProduct.classList.add("products");
             stockContainer.appendChild(newProduct);
 
-            // *Adicionar nova opção de venda e refill com o novo produto
+            // *Adicionar nova opção de refill com o novo produto
             const newProductOption = document.createElement("option");
             newProductOption.value = newProductName;
             newProductOption.textContent = newProductName;
-            productsInSale.appendChild(newProductOption);
             refillProductDropdown.appendChild(newProductOption);
+            productsInSale.appendChild(newProductOption);
 
             // *Adicionar o novo produto ao productPrices
             const newProductPrice = parseFloat(prompt(`Informe o preço do novo produto ${newProductName}:`));
@@ -79,7 +79,7 @@ function updateStock() {
 // *Comprar ou aumentar produto
 refillBtn.addEventListener("click", (e) => {
     e.preventDefault();
-    if (isNaN(refillAmountInput.value)) {
+    if (refillAmountInput.value === '') {
         alert("Nenhum produto selecionado ou quantidade inválida!");
     } else {
         updateStock();

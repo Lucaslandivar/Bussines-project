@@ -19,12 +19,6 @@ const initialProductAmounts = {
 // *Atualizar a quantidade do produto
 function updateProductAmount(productName, quantity, isRefill) {
     if (initialProductAmounts.hasOwnProperty(productName)) {
-        // *Em caso de não houver produto suficiente
-        if (!isRefill && quantity > initialProductAmounts[productName]) {
-            alert("Não há produto suficiente.");
-            return;
-        }
-
         // *Ajustando a quantidade baseada no refill ou no sell
         initialProductAmounts[productName] += isRefill ? quantity : -quantity;
 
