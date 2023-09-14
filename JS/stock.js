@@ -37,7 +37,7 @@ function removeProduct(event) {
     const productElement = deleteButton.closest(".products");
     
     if (confirm(`Tem certeza que quer remover este produto?`)) {
-        productElement.remove(); 
+        productElement.remove();
     }
 }
 

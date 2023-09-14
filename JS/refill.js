@@ -43,7 +43,7 @@ function updateStock() {
             newProduct.classList.add("products");
             stockContainer.appendChild(newProduct);
 
-            // *Adicionar nova opção de refill com o novo produto
+            // *Adicionar nova opção de refill e venda com o novo produto
             const newProductOption = document.createElement("option");
             newProductOption.value = newProductName;
             newProductOption.textContent = newProductName;
