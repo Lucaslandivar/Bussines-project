@@ -22,8 +22,8 @@ function updateStock() {
     if (refillProduct === "newProduct") {
         const newProductName = prompt("Informe o nome do novo produto:");
         if (newProductName) {
-            // *Atualizar a quantidade dos produtos
-            updateProductAmount(newProductName, refillAmount, true);
+            // * Adicionar o novo produto productQuantities
+            productQuantities[newProductName] = refillAmount;
 
             // *Criar uma Li com o resultado
             const refillProductLi = document.createElement("li");
