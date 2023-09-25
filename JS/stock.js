@@ -8,7 +8,7 @@ const sellProductBtn = document.querySelectorAll(".bx-money-withdraw");
 const sellContainer = document.getElementsByClassName("sellContainer")[0];
 
 // *Quantidades iniciais dos produtos
-const initialProductAmounts = {
+const productQuantities = {
     kitKat: 10,
     guarana: 5,
     bisExtra: 3,
@@ -16,22 +16,22 @@ const initialProductAmounts = {
 
 // ?Funções
 
-// *Atualizar a quantidade do produto
+// TODO: Atualizar a quantidade do produto
 function updateProductAmount(productName, quantity, isRefill) {
-    if (initialProductAmounts.hasOwnProperty(productName)) {
-        // *Ajustando a quantidade baseada no refill ou no sell
-        initialProductAmounts[productName] += isRefill ? quantity : -quantity;
+    if (productQuantities.hasOwnProperty(productName)) {
+        // * Ajustando a quantidade baseada no refill ou no sell
+        productQuantities[productName] += isRefill ? quantity : -quantity;
 
         const productAmountElement = document.querySelector(`.productAmount[data-product="${productName}"]`);
         
         if (productAmountElement) {
-            productAmountElement.textContent = initialProductAmounts[productName];
+            productAmountElement.textContent = productQuantities[productName];
         }
     }
 }
 
 
-// *Remover produtos do stock
+// TODO: Remover produtos do stock
 function removeProduct(event) {
     const deleteButton = event.currentTarget; 
     const productElement = deleteButton.closest(".products");
@@ -41,7 +41,7 @@ function removeProduct(event) {
     }
 }
 
-// *Trocar a clase da sell section
+// TODO: Trocar a clase da sell section
 function goToSell(event) {
     sellContainer.classList.toggle("hide");
 }

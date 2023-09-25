@@ -10,14 +10,14 @@ let totalMoney = 20;
 
 // ?Funções
 
-// *Função de atualizar o dinheiro total na conta
+// TODO: Função de atualizar o dinheiro total na conta
 function updateTotalMoney() {
     const totalMoneyAmount = document.getElementById("totalMoney");
     totalMoneyAmount.textContent = totalMoney >= 0 ? `$${totalMoney.toFixed(2)}` : `-$${Math.abs(totalMoney.toFixed(2))}`;
     totalMoneyAmount.style.color = totalMoney >= 0 ? "green" : "red";
 }
 
-// *Função de adicionar transação
+// TODO: Função de adicionar transação
 function addTransaction() {
 
     const moneyAmount = parseFloat(moneyAmountInput.value);

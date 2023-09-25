@@ -10,7 +10,7 @@ const cancelRefillBtn = document.getElementById("cancelRefillBtn");
 
 // ?Funções
 
-// *Adicionar produto ao stock
+// TODO: Adicionar produto ao stock
 function updateStock() {
     const refillProductDropdown = document.getElementById("refill-product");
     const refillAmount = parseFloat(refillAmountInput.value);
@@ -22,8 +22,8 @@ function updateStock() {
     if (refillProduct === "newProduct") {
         const newProductName = prompt("Informe o nome do novo produto:");
         if (newProductName) {
-            // *Atualizar a quantidade dos produtos
-            updateProductAmount(newProductName, refillAmount, true);
+            // * Adicionar o novo produto productQuantities
+            productQuantities[newProductName] = refillAmount;
 
             // *Criar uma Li com o resultado
             const refillProductLi = document.createElement("li");
@@ -43,12 +43,17 @@ function updateStock() {
             newProduct.classList.add("products");
             stockContainer.appendChild(newProduct);
 
-            // *Adicionar nova opção de refill e venda com o novo produto
+            // *Adicionar nova opção de venda com o novo produto
             const newProductOption = document.createElement("option");
             newProductOption.value = newProductName;
             newProductOption.textContent = newProductName;
-            refillProductDropdown.appendChild(newProductOption);
             productsInSale.appendChild(newProductOption);
+
+            // *Adicionar nova opção de refill com o novo produto
+            const newProductToRefillOption = document.createElement("option");
+            newProductToRefillOption.value = newProductName;
+            newProductToRefillOption.textContent = newProductName;
+            refillProductDropdown.appendChild(newProductToRefillOption);
 
             // *Adicionar o novo produto ao productPrices
             const newProductPrice = parseFloat(prompt(`Informe o preço do novo produto ${newProductName}:`));

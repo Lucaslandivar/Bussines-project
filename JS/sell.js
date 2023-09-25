@@ -16,7 +16,7 @@ const productPrices = {
 
 // ?Funções
 
-// *Sell product
+// TODO: Sell product
 function sellProduct() {
     const sellAmount = parseFloat(sellAmountInput.value);
     const sellDetails = sellDetailsInput.value;
